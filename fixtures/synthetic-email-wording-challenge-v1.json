@@ -1,0 +1,872 @@
+{
+  "schema": "synthetic-email-wording-challenge-v1",
+  "synthetic_only": true,
+  "cases": [
+    {
+      "id": "WC01-1",
+      "group": "payment_due",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Please settle the invoice by 2028-03-21."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-03-21",
+            "invoice_payment"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC01-2",
+      "group": "payment_due",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The invoice must be paid by 2028-03-21."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-03-21",
+            "invoice_payment"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC01-3",
+      "group": "payment_due",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Is the invoice payable by 2028-03-21?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC02-1",
+      "group": "autopay_complete",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The automatic invoice payment went through on 2028-03-19."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2028-03-19",
+            "invoice_payment"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC02-2",
+      "group": "autopay_complete",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your invoice was paid automatically on 2028-03-19."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2028-03-19",
+            "invoice_payment"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC02-3",
+      "group": "autopay_complete",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Did the automatic invoice payment go through on 2028-03-19?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC03-1",
+      "group": "autopay_remedy",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The automatic invoice payment failed. Please contact billing to arrange payment."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_failed"
+          ],
+          [
+            "contact_biller",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC03-2",
+      "group": "autopay_remedy",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Contact the billing team to arrange payment because the automatic invoice charge failed."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_failed"
+          ],
+          [
+            "contact_biller",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC03-3",
+      "group": "autopay_remedy",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Did the automatic invoice payment fail, and should billing be contacted?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC04-1",
+      "group": "bill_notice",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your bill is ready to view."
+      },
+      "reference": {
+        "state": "informational",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC04-2",
+      "group": "bill_notice",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The latest bill is now available for viewing."
+      },
+      "reference": {
+        "state": "informational",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC04-3",
+      "group": "bill_notice",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Is the latest bill ready to view?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC05-1",
+      "group": "renewal_due",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Please renew your membership by 2028-04-17."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-04-17",
+            "renew_membership"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC05-2",
+      "group": "renewal_due",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your membership needs to be renewed by 2028-04-17."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-04-17",
+            "renew_membership"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC05-3",
+      "group": "renewal_due",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Does the membership need renewal by 2028-04-17?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC06-1",
+      "group": "renewal_complete",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your membership renewal was completed on 2028-04-12."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2028-04-12",
+            "renew_membership"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC06-2",
+      "group": "renewal_complete",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The membership was successfully renewed on 2028-04-12."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2028-04-12",
+            "renew_membership"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC06-3",
+      "group": "renewal_complete",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Was the membership successfully renewed on 2028-04-12?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC07-1",
+      "group": "cancel_refund",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your visit has been cancelled. Please submit a refund request by 2028-06-08."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ],
+          [
+            "request_refund",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-06-08",
+            "request_refund"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC07-2",
+      "group": "cancel_refund",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Request a refund by 2028-06-08 following the cancellation of your visit."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ],
+          [
+            "request_refund",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-06-08",
+            "request_refund"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC07-3",
+      "group": "cancel_refund",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Was the visit cancelled, and is a refund request needed by 2028-06-08?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC08-1",
+      "group": "cancel_reschedule",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your visit has been cancelled. Please arrange a replacement visit by 2028-06-11."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ],
+          [
+            "reschedule_visit",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-06-11",
+            "reschedule_visit"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC08-2",
+      "group": "cancel_reschedule",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Reschedule your visit by 2028-06-11 because the original visit was cancelled."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ],
+          [
+            "reschedule_visit",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2028-06-11",
+            "reschedule_visit"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC08-3",
+      "group": "cancel_reschedule",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Was the visit cancelled, and must it be rescheduled by 2028-06-11?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC09-1",
+      "group": "form_complete",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "You have completed the service form."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "return_form",
+            "reported_completed"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC09-2",
+      "group": "form_complete",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The service form has been filled out and returned."
+      },
+      "reference": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "return_form",
+            "reported_completed"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC09-3",
+      "group": "form_complete",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "The service form is complete, but the same service form is incomplete."
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC10-1",
+      "group": "payment_plus_form",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your invoice payment is complete, but you still need to return the service form."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ],
+          [
+            "return_form",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC10-2",
+      "group": "payment_plus_form",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Please return the service form; the invoice has already been paid."
+      },
+      "reference": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ],
+          [
+            "return_form",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC10-3",
+      "group": "payment_plus_form",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Has the invoice been paid, and does the service form still need returning?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC11-1",
+      "group": "promotion_expiry",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "promotional",
+        "subject": "This promotional offer remains available until it expires on 2028-09-30."
+      },
+      "reference": {
+        "state": "promotional",
+        "steps": [],
+        "dates": [
+          [
+            "offer_expiry",
+            "2028-09-30",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC11-2",
+      "group": "promotion_expiry",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "promotional",
+        "subject": "The special offer ends on 2028-09-30."
+      },
+      "reference": {
+        "state": "promotional",
+        "steps": [],
+        "dates": [
+          [
+            "offer_expiry",
+            "2028-09-30",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC11-3",
+      "group": "promotion_expiry",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "promotional",
+        "subject": "Does the special offer end on 2028-09-30?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    },
+    {
+      "id": "WC12-1",
+      "group": "visit_notice",
+      "variant": "paraphrase_a",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Your visit is booked for 2028-05-15."
+      },
+      "reference": {
+        "state": "informational",
+        "steps": [],
+        "dates": [
+          [
+            "event_date",
+            "2028-05-15",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC12-2",
+      "group": "visit_notice",
+      "variant": "paraphrase_b",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "outlook",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "We have confirmed your visit scheduled for 2028-05-15."
+      },
+      "reference": {
+        "state": "informational",
+        "steps": [],
+        "dates": [
+          [
+            "event_date",
+            "2028-05-15",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "WC12-3",
+      "group": "visit_notice",
+      "variant": "ambiguous",
+      "input": {
+        "schema": "synthetic-email-metadata-v1",
+        "synthetic_only": true,
+        "provider": "gmail",
+        "record_type": "message",
+        "notice_kind": "service",
+        "subject": "Is the visit confirmed for 2028-05-15?"
+      },
+      "reference": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      }
+    }
+  ]
+}

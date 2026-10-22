@@ -1,0 +1,19 @@
+{
+  "synthetic_only": true,
+  "rubric_version": "action-rubric-v1",
+  "reference_time": "2026-10-09T12:00:00Z",
+  "action_definitions": {
+    "required": "Visible metadata explicitly asserts a specific outstanding recipient step or preparation, with applicability supported by visible status. A due date, renewal word, cancelled event or document type alone is insufficient.",
+    "not_required": "Visible metadata explicitly records completion, closure, automatic settled processing, or an informational/optional item without a requested step. This clears only this visible request, not all real-world obligations.",
+    "uncertain": "Outstandingness or applicability is absent, tentative, conditional-unresolved, conflicting, historical without current status, or only suggested by a topic, sender or filename. Do not guess either obligation or clearance."
+  },
+  "relevance_definition": "Household relevance is independent of urgency and action. Household-specific informational records remain relevant. Explicit public promotions/digests are irrelevant. Generic meetings/documents have uncertain household relevance.",
+  "domain_definition": "Use only an existing category/child justified by visible topic. Null domain denotes unknown truth, not a new taxonomy category. Correct classification requires both category and child.",
+  "calendar_caveat": "Confirmed conditional preparation can support required; cancelled status cancels that event-specific preparation. Tentative status leaves it unresolved. Cancellation with a new explicitly pending replacement choice is still required. Calendar membership alone proves no household relevance.",
+  "drive_caveat": "Generated workflow titles that explicitly assert a missing recipient submission can support a metadata-only required label. Filenames, PDF MIME type, draft options, deletion and generic billing titles cannot establish an obligation. Labels judge the visible assertion, not authenticity or current external account state.",
+  "historical_caveat": "occurred_at is provenance time. Old uncompleted requests are uncertain, not automatically required or settled. Explicit completed historical records are not_required. Event start/end are separate metadata fields.",
+  "annotation_policy": "Rationales and evidence references are short evaluation-side adjudications, never inference input or hidden content. Ambiguous action truth is always uncertain; no private body, balance, consent, account ownership or recipient resolution is invented.",
+  "split_protocol": "Predeclared deterministic assignment; no random seed or accuracy-based selection. Development has 20 cases per action; holdout has 10. Counterfactual families stay wholly in one split. Holdout is final-evaluation-only, never instructions, examples, tuning or development error feedback.",
+  "freeze_policy": "Freeze fixture contents, split assignment, annotations and rubric together on reviewed merge. Any later edit requires a new dataset/rubric version as appropriate, explicit changelog, new manifest and lock, and acknowledgement that prior holdout comparability is invalidated.",
+  "limitations": "Git-tracked synthetic holdout is a procedural holdout, not blinded, representative or a production quality estimate. Counterfactual siblings are correlated. English-only cases emphasize action; relevance is not balanced and not all taxonomy children are represented. Synthetic declarations are not real-data detectors."
+}

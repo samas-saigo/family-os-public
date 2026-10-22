@@ -1,0 +1,43 @@
+alembic==1.20.0
+Authlib==1.8.0
+certifi==2026.7.22
+cffi==2.1.1
+charset-normalizer==3.5.2
+colorama==0.4.6
+cryptography==50.0.2
+google-auth-oauthlib==1.5.0
+google-auth==2.59.1
+greenlet==3.5.6
+idna==3.20
+iniconfig==2.3.0
+jaraco.classes==3.4.0
+jaraco.context==6.1.2
+jaraco.functools==4.6.0
+jeepney==0.9.0; sys_platform == "linux"
+joserfc==1.7.5
+keyring==25.7.0
+Mako==1.4.3
+MarkupSafe==3.0.4
+more-itertools==11.1.0
+msal==1.39.0
+oauthlib==4.0.0
+packaging==26.3
+pluggy==1.6.0
+psycopg-binary==3.3.6
+psycopg==3.3.6
+pyasn1-modules==0.4.2
+pyasn1==0.6.4
+pycparser==3.0
+pywin32-ctypes==0.2.3; sys_platform == "win32"
+Pygments==2.21.0
+PyJWT==2.15.1
+pytest==9.1.1
+PyYAML==6.0.3
+requests-oauthlib==2.0.0
+requests==2.34.2
+SecretStorage==3.5.0; sys_platform == "linux"
+SQLAlchemy==2.0.54
+typing_extensions==4.16.0
+tzdata==2026.5
+urllib3==2.8.0
+waitress==3.0.2

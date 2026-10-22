@@ -1,0 +1,49 @@
+/* I7 Pending only. Older launchers never serve this opt-in stylesheet. */
+.i7-pending-filters { display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin-bottom:16px; }
+.i7-pending-filters label { flex:0 0 auto; }
+.i7-pending-filters select { flex:0 0 auto; width:260px; max-width:100%; min-width:0; }
+.i7-pending-filters + p { margin-top:0; }
+html[data-i7-pending-open] { overflow:hidden; scrollbar-gutter:stable; }
+html[data-i7-pending-open] body { overflow:hidden; }
+#detail-dialog.i7-pending-dialog {
+  width:680px; max-width:calc(100% - 32px); max-height:calc(100dvh - 32px);
+  padding:0; overflow:hidden; border-radius:20px;
+}
+.i7-pending-dialog #dialog-body { display:flex; flex-direction:column; min-height:0; max-height:calc(100dvh - 32px); }
+.i7-dialog-header { display:flex; flex:0 0 auto; align-items:flex-start; gap:16px; padding:20px 24px 16px; border-bottom:1px solid var(--line); }
+.i7-dialog-header>div { flex:1; min-width:0; }
+.i7-dialog-header small { display:block; font-size:12px; line-height:1.5; color:var(--muted); margin-bottom:8px; }
+#detail-dialog.i7-pending-dialog h2 { margin:0; font-size:24px; line-height:1.4; overflow-wrap:anywhere; }
+.i7-dialog-header .i7-dialog-date,.i7-dialog-header .i7-dialog-state { margin:6px 0 0; font-size:13px; line-height:1.5; color:var(--muted); }
+.i7-dialog-close { flex:0 0 auto; min-width:44px; }
+.i7-dialog-scroll { flex:1 1 auto; min-height:0; overflow:auto; overscroll-behavior:contain; padding:20px 24px; overflow-wrap:anywhere; }
+.i7-dialog-scroll section+section { margin-top:20px; }
+.i7-dialog-scroll h3 { margin:0 0 8px; }
+.i7-dialog-scroll p { margin:0 0 10px; }
+.i7-dialog-scroll p:last-child { margin-bottom:0; }
+.i7-dialog-footer { flex:0 0 auto; padding:16px 24px; border-top:1px solid var(--line); background:var(--surface); }
+.i7-dialog-footer[hidden] { display:none; }
+.i7-pending-dialog .i7-dialog-footer .connection-actions { display:flex; justify-content:flex-end; gap:12px; margin:0; }
+.i7-dialog-footer button { max-width:100%; white-space:normal; }
+.i7-dialog-scroll fieldset { border:0; padding:0; margin:20px 0; min-width:0; }
+.i7-dialog-scroll legend { font-size:18px; font-weight:600; margin-bottom:12px; }
+.i7-handling-option { display:flex; gap:12px; align-items:flex-start; min-height:44px; padding:12px; border:1px solid var(--line); border-radius:10px; margin:0 0 12px; cursor:pointer; }
+.i7-handling-option:has(input:checked) { border-color:var(--green); background:var(--green-soft); }
+.i7-handling-option:focus-within { outline:3px solid var(--focus); outline-offset:2px; }
+.i7-handling-option input[type="radio"] { flex:0 0 auto; width:20px; min-width:20px; height:20px; padding:0; margin:3px 0 0; accent-color:var(--green); }
+.i7-handling-option>span { min-width:0; }
+.i7-handling-option strong,.i7-handling-option span>span { display:block; }
+.i7-handling-option span>span { margin-top:4px; font-size:14px; color:var(--muted); }
+.i7-handling-status { font-size:14px; color:var(--muted); }
+@media(max-width:730px) {
+  #detail-dialog.i7-pending-dialog { max-width:calc(100% - 24px); max-height:calc(100dvh - 24px); border-radius:16px; }
+  .i7-pending-dialog #dialog-body { max-height:calc(100dvh - 24px); }
+  .i7-dialog-header { padding:16px; gap:12px; }
+  #detail-dialog.i7-pending-dialog h2 { font-size:21px; }
+  .i7-dialog-scroll { padding:16px; }
+  .i7-dialog-footer { padding:12px 16px; }
+}
+@media(max-width:420px) {
+  .i7-pending-dialog .i7-dialog-footer .connection-actions { flex-direction:column; }
+  .i7-pending-dialog .i7-dialog-footer .connection-actions>button { flex:0 0 auto; width:100%; }
+}

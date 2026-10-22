@@ -1,0 +1,39 @@
+# Synthetic identities only. Copy to ignored household.yaml and edit before OAuth.
+household:
+  id: demo_household
+  name: Synthetic household
+people:
+  - id: demo_alex
+    display_name: Alex
+  - id: demo_spouse
+    display_name: Spouse
+source_accounts:
+  - id: demo_primary
+    provider: gmail
+    owner_type: person
+    owner_id: demo_alex
+    external_account: alex.primary@example.invalid
+    enabled: true
+  - id: demo_secondary
+    provider: gmail
+    owner_type: person
+    owner_id: demo_alex
+    external_account: alex.secondary@example.invalid
+    enabled: true
+  - id: demo_spouse_mail
+    provider: gmail
+    owner_type: person
+    owner_id: demo_spouse
+    external_account: spouse@example.invalid
+    enabled: true
+  - id: demo_shared_mail
+    provider: gmail
+    owner_type: household
+    owner_id: demo_household
+    external_account: shared@example.invalid
+    enabled: true
+  - id: demo_unknown_mail
+    provider: gmail
+    owner_type: unknown
+    external_account: unresolved@example.invalid
+    enabled: false

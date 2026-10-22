@@ -1,0 +1,529 @@
+[
+  {
+    "id": "gmail-insurance",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Insurance renewal due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "household_admin",
+        "insurance"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "outlook-hotel",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Hotel reservation confirmed",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "travel",
+        "hotel"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "gmail-utility",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Utility bill: payment due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "home",
+        "utility"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "outlook-vehicle",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Vehicle registration renewal due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "vehicle",
+        "registration"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "calendar-vet",
+    "input": {
+      "provider": "google_calendar",
+      "record_type": "calendar_event",
+      "subject": "Action required: vet appointment",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "status": "confirmed",
+        "start": {
+          "dateTime": "2026-11-01T10:00:00Z"
+        }
+      }
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "pet",
+        "vet_visit"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "gmail-order",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Order shipped",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "purchase",
+        "delivery"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "outlook-statement",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Bank statement available",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "finance_reference",
+        "statement_notice"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "drive-lease",
+    "input": {
+      "provider": "google_drive",
+      "record_type": "document",
+      "subject": "Residential lease.pdf",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "mimeType": "application/pdf"
+      }
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "home",
+        "lease"
+      ],
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "gmail-promo",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Limited-time sale!",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "irrelevant",
+      "domain": [
+        "ignore",
+        "generic_promotion"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "outlook-newsletter",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Weekly newsletter",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "irrelevant",
+      "domain": [
+        "ignore",
+        "newsletter"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "gmail-social",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "New social follower",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "irrelevant",
+      "domain": [
+        "ignore",
+        "social"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "outlook-market",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Stock price alert",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "irrelevant",
+      "domain": [
+        "ignore",
+        "market_price_alert"
+      ],
+      "action": "not_required"
+    }
+  },
+  {
+    "id": "generic-project",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Project update",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "generic-meeting",
+    "input": {
+      "provider": "google_calendar",
+      "record_type": "calendar_event",
+      "subject": "Team standup",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "status": "confirmed",
+        "start": {
+          "dateTime": "2026-11-01T10:00:00Z"
+        }
+      }
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "generic-pdf",
+    "input": {
+      "provider": "google_drive",
+      "record_type": "document",
+      "subject": "report.pdf",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "mimeType": "application/pdf"
+      }
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "generic-outlook",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "FYI",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "conflicting-domains",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Insurance renewal due and hotel reservation confirmed",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "promotion-conflict",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Exclusive promotion: insurance renewal due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "weak-renew",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Please renew",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "weak-payment",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Payment information",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "cancelled-vet",
+    "input": {
+      "provider": "google_calendar",
+      "record_type": "calendar_event",
+      "subject": "Action required: vet appointment",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "status": "cancelled",
+        "start": {
+          "dateTime": "2026-11-01T10:00:00Z"
+        }
+      }
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "missing-time",
+    "input": {
+      "provider": "google_calendar",
+      "record_type": "calendar_event",
+      "subject": "Action required: vet appointment",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "status": "confirmed"
+      }
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "trashed-lease",
+    "input": {
+      "provider": "google_drive",
+      "record_type": "document",
+      "subject": "Residential lease.pdf",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "mimeType": "application/pdf",
+        "trashed": true
+      }
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "negated-payment",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Utility bill: no payment due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "conditional-insurance",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Maybe insurance renewal due",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "uncertain",
+      "domain": null,
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "unsupported-travel",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Travel itinerary",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "travel",
+        "itinerary"
+      ],
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "unsupported-membership",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "Membership renewal deadline",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "household_admin",
+        "membership"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "unsupported-service",
+    "input": {
+      "provider": "gmail",
+      "record_type": "message",
+      "subject": "Vehicle service reminder",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "vehicle",
+        "service"
+      ],
+      "action": "required"
+    }
+  },
+  {
+    "id": "utility-without-action",
+    "input": {
+      "provider": "google_drive",
+      "record_type": "document",
+      "subject": "Utility bill.pdf",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {
+        "mimeType": "application/pdf"
+      }
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "home",
+        "utility"
+      ],
+      "action": "uncertain"
+    }
+  },
+  {
+    "id": "unicode-normalized",
+    "input": {
+      "provider": "outlook",
+      "record_type": "message",
+      "subject": "ＨＯＴＥＬ — reservation, CONFIRMED!",
+      "sender": "synthetic@example.invalid",
+      "raw_metadata": {}
+    },
+    "expected": {
+      "relevance": "relevant",
+      "domain": [
+        "travel",
+        "hotel"
+      ],
+      "action": "not_required"
+    }
+  }
+]

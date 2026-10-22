@@ -1,0 +1,34 @@
+# Synthetic only. Copy to ignored household.yaml; use actual MSAL sign-in usernames.
+household:
+  id: demo_household
+  name: Synthetic mixed-provider household
+people:
+  - id: demo_alex
+    display_name: Alex
+  - id: demo_spouse
+    display_name: Spouse
+source_accounts:
+  - id: demo_outlook_personal
+    provider: outlook
+    owner_type: person
+    owner_id: demo_alex
+    external_account: alex.personal@example.invalid
+    enabled: true
+  - id: demo_outlook_work
+    provider: outlook
+    owner_type: person
+    owner_id: demo_alex
+    external_account: alex@work.example.invalid
+    enabled: true
+  - id: demo_outlook_spouse
+    provider: outlook
+    owner_type: person
+    owner_id: demo_spouse
+    external_account: spouse@example.invalid
+    enabled: true
+  - id: demo_gmail
+    provider: gmail
+    owner_type: person
+    owner_id: demo_alex
+    external_account: alex.gmail@example.invalid
+    enabled: false

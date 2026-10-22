@@ -1,0 +1,75 @@
+# Version identifiers are durable. Bump the corresponding version for any change.
+taxonomy_version: family-os-taxonomy-v1
+threshold_policy_version: family-os-thresholds-v1
+thresholds:
+  relevance: 0.80
+  domain: 0.80
+  action: 0.80
+  fact: 0.90
+
+categories:
+  household_admin:
+    children:
+      - insurance
+      - bill
+      - renewal
+      - membership
+      - government_notice
+      - apartment_or_property
+
+  travel:
+    children:
+      - flight
+      - hotel
+      - rental_car
+      - reservation
+      - itinerary
+
+  home:
+    children:
+      - lease
+      - utility
+      - maintenance
+      - appliance
+      - home_insurance
+
+  vehicle:
+    children:
+      - registration
+      - insurance
+      - service
+      - tire
+      - warranty
+      - recall
+
+  pet:
+    children:
+      - vet_visit
+      - vaccination
+      - insurance
+      - medication
+      - lab
+      - invoice
+
+  purchase:
+    children:
+      - receipt
+      - order
+      - return
+      - warranty
+      - delivery
+
+  finance_reference:
+    children:
+      - statement_notice
+      - card_replacement
+      - account_notice
+      - tax_document_notice
+
+  ignore:
+    children:
+      - marketing
+      - newsletter
+      - social
+      - generic_promotion
+      - market_price_alert

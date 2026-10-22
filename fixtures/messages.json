@@ -1,0 +1,21 @@
+[
+  {
+    "id": "demo-message-001",
+    "record_type": "message",
+    "thread_id": "demo-thread-001",
+    "occurred_at": "2026-10-04T17:00:00Z",
+    "sender": "hotel@example.invalid",
+    "recipients": ["demo@example.invalid"],
+    "subject": "Synthetic reservation confirmation",
+    "metadata": {"confirmation_number": "DEMO-001"}
+  },
+  {
+    "id": "demo-message-002",
+    "record_type": "message",
+    "occurred_at": "2026-10-04T18:00:00Z",
+    "sender": "service@example.invalid",
+    "recipients": ["demo@example.invalid"],
+    "subject": "Synthetic household service notice",
+    "metadata": {"provider_labels": ["INBOX"]}
+  }
+]

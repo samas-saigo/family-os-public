@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "family-os"
+version = "0.1.0"
+description = "Read-only household ingestion infrastructure"
+requires-python = ">=3.12"
+dependencies = ["SQLAlchemy>=2.0,<2.1", "alembic>=1.13,<2", "PyYAML>=6,<7"]
+
+[project.optional-dependencies]
+identity = ["PyJWT[crypto]>=2.15.1,<3", "cryptography>=50.0.2,<51"]
+oidc = ["Authlib>=1.8,<1.9", "PyJWT[crypto]>=2.15.1,<3", "cryptography>=50.0.2,<51"]
+postgres = ["psycopg[binary]>=3.2,<4"]
+dev = ["pytest>=8,<10"]
+local-session-demo = ["waitress>=3.0.2,<3.1", "PyJWT[crypto]>=2.15.1,<3", "cryptography>=50.0.2,<51"]
+gmail = ["google-auth-oauthlib>=1.2,<2", "keyring>=25,<26"]
+google-drive = ["google-auth-oauthlib>=1.2,<2", "keyring>=25,<26"]
+google-calendar = ["google-auth-oauthlib>=1.2,<2", "keyring>=25,<26", "tzdata>=2026.1"]
+outlook = ["msal>=1.39,<2", "keyring>=25,<26"]
+
+[project.scripts]
+family-os = "family_os.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["family_os*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

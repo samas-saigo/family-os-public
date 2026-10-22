@@ -1,0 +1,28 @@
+# Synthetic example; copy into ignored config/household.yaml before editing.
+household:
+  id: demo_home
+  name: Synthetic Drive household
+people:
+  - id: alex
+    display_name: Alex
+  - id: spouse
+    display_name: Spouse
+source_accounts:
+  - id: alex_drive
+    provider: google_drive
+    owner_type: person
+    owner_id: alex
+    external_account: demo.primary@example.invalid
+    enabled: true
+  - id: alex_other_drive
+    provider: google_drive
+    owner_type: person
+    owner_id: alex
+    external_account: demo.secondary@example.invalid
+    enabled: false
+  - id: spouse_drive
+    provider: google_drive
+    owner_type: person
+    owner_id: spouse
+    external_account: demo.spouse@example.invalid
+    enabled: true

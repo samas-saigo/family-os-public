@@ -1,0 +1,208 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+concurrency:
+  # Isolate each PR; unique main groups preserve running and pending pushes.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+jobs:
+  selection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      postgres: ${{ steps.route.outputs.postgres }}
+      windows_compat: ${{ steps.route.outputs.windows_compat }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test conservative routing rules
+        run: python -m unittest discover -s .github/scripts -p 'test_*.py' -v
+      - name: Select checks (failure defaults downstream to full)
+        id: route
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: python .github/scripts/ci_route.py
+  sqlite:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - run: python -m pytest -q
+  postgres:
+    needs: selection
+    if: ${{ !cancelled() && (needs.selection.result != 'success' || needs.selection.outputs.postgres != 'false') }}
+    timeout-minutes: 35
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: family_os_test
+          POSTGRES_USER: family_os_test
+          POSTGRES_PASSWORD: synthetic_ci_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://family_os_test:synthetic_ci_password@localhost:5432/family_os_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - run: python -m pytest -q
+  windows-wording:
+    name: windows-wording (3.12.10)
+    env:
+      WINDOWS_PYTHON: '3.12.10'
+    timeout-minutes: 15
+    # Restricted native-platform probe; never runs split datasets or models.
+    runs-on: windows-latest
+    steps: &windows-steps
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.WINDOWS_PYTHON }}
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - name: Diagnose fixed synthetic file metadata
+        run: python -m experiments.diagnose_wording_stats --synthetic-only
+      - run: python -m pip install -r requirements-dev.lock
+      - run: python -m pip install --no-deps -e .
+      - name: Native fixed-file and email experiment regressions
+        run: python -m pytest -q -rP tests/test_synthetic_email_evidence.py tests/test_email_wording_challenge.py tests/test_email_model_evidence.py tests/test_single_email_diagnostic.py tests/test_single_email_windows_workflow.py tests/test_single_email_compat.py tests/test_email_model_compat.py tests/test_email_structure_diagnostic.py tests/test_email_relational_schema.py tests/test_email_semantic_prompt.py
+      - name: Parse Windows diagnostic instructions without executing inference
+        shell: pwsh
+        run: |
+          $text = Get-Content -Raw -Encoding utf8 docs/single-email-runtime-diagnostic-v1.md
+          $block = [regex]::Match($text, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($block)) { throw 'Missing diagnostic instructions' }
+          $tokens = $null; $errors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($block, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid PowerShell diagnostic instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'experiments/single_email_windows.ps1'), [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid PowerShell workflow helper' }
+          $v2 = Get-Content -Raw -Encoding utf8 docs/single-email-runtime-diagnostic-v2.md
+          $v2block = [regex]::Match($v2, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($v2block)) { throw 'Missing v2 stdin instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($v2block, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid v2 stdin instructions' }
+          $semantic = Get-Content -Raw -Encoding utf8 docs/synthetic-email-model-evidence-v2.md
+          $semanticBlock = [regex]::Match($semantic, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($semanticBlock)) { throw 'Missing compatible semantic stdin instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($semanticBlock, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid compatible semantic stdin instructions' }
+          $structure = Get-Content -Raw -Encoding utf8 docs/synthetic-email-structure-diagnostic-v1.md
+          $structureBlock = [regex]::Match($structure, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($structureBlock)) { throw 'Missing structure diagnostic stdin instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($structureBlock, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid structure diagnostic stdin instructions' }
+          $candidate = Get-Content -Raw -Encoding utf8 docs/synthetic-email-relational-schema-v1.md
+          $candidateBlock = [regex]::Match($candidate, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($candidateBlock)) { throw 'Missing schema candidate stdin instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($candidateBlock, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid schema candidate stdin instructions' }
+          $promptCandidate = Get-Content -Raw -Encoding utf8 docs/synthetic-email-semantic-prompt-v1.md
+          $promptBlock = [regex]::Match($promptCandidate, '(?s)```powershell\r?\n(.*?)\r?\n```').Groups[1].Value
+          if ([string]::IsNullOrWhiteSpace($promptBlock)) { throw 'Missing prompt candidate stdin instructions' }
+          $null = [System.Management.Automation.Language.Parser]::ParseInput($promptBlock, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { throw 'Invalid prompt candidate stdin instructions' }
+          Write-Host 'Existing and compatible semantic instructions parse; native Restricted behavioral tests also execute with mocks'
+      - name: Run real CLI twice and verify report isolation
+        shell: python
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          import json, os, pathlib, re, subprocess, sys
+          command = [sys.executable, '-m', 'experiments.email_wording_challenge', '--synthetic-only']
+          def invoke():
+              result = subprocess.run(command, check=True, capture_output=True, text=True, encoding='utf-8')
+              lines = result.stdout.strip().splitlines()
+              match = re.fullmatch(r'报告：(\.local/email-wording-challenge/[0-9a-f]{32}/report\.json)', lines[-1])
+              assert match, 'Missing bounded report path'
+              print(result.stdout)
+              return pathlib.Path(match[1])
+          first = invoke()
+          original = first.read_bytes()
+          second = invoke()
+          assert first != second and first.read_bytes() == original
+          assert json.loads(original) == json.loads(second.read_bytes())
+          assert not list(pathlib.Path('.local/email-wording-challenge').rglob('*.tmp'))
+          print('Two real CLI runs: equivalent results, distinct directories, first report unchanged, no temporary files')
+      - name: Run PR104 email CLI twice and verify report isolation
+        shell: python
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          import json, pathlib, re, subprocess, sys
+          command = [sys.executable, '-m', 'experiments.synthetic_email_evidence', '--synthetic-only']
+          def invoke():
+              result = subprocess.run(command, check=True, capture_output=True, text=True, encoding='utf-8')
+              match = re.fullmatch(r'仅文字证据，无 Task/Pending 或行动权限；详细诊断：(\.local/synthetic-email-evidence/[0-9a-f]{32}/report\.json)', result.stdout.strip().splitlines()[-1])
+              assert match, 'Missing bounded PR104 report path'
+              print(result.stdout)
+              return pathlib.Path(match[1])
+          first = invoke()
+          original = first.read_bytes()
+          second = invoke()
+          assert first != second and first.read_bytes() == original
+          value = json.loads(original)
+          assert value == json.loads(second.read_bytes())
+          m = value['metrics']
+          assert (m['selected'], m['expected_valid'], m['expected_invalid'], m['correct_safety_rejections'], m['semantic_exact'], m['supported_exact'], m['supported_controls'], m['abstentions']) == (75, 59, 16, 16, 59, 22, 22, 37)
+          assert value['counterfactual']['selected'] == value['counterfactual']['exact_correct'] == 8
+          for key in ('unsafe_input_accepted', 'unexpected_input_rejections', 'false_obligation_cases', 'false_clearance_cases', 'missed_explicit_step_cases', 'invented_or_misbound_date_cases', 'unsupported_overreach_cases', 'missed_date_cases', 'invalid_or_failed_outputs'):
+              assert m[key] == 0
+          assert not list(pathlib.Path('.local/synthetic-email-evidence').rglob('*.tmp'))
+          print('PR104 real CLI twice: frozen metrics unchanged, distinct directories, first report unchanged, no temporary files')
+
+  windows-compat:
+    # Preserve the original check name even when the job is explicitly skipped.
+    name: windows-wording (3.12.0)
+    needs: selection
+    if: ${{ !cancelled() && (needs.selection.result != 'success' || needs.selection.outputs.windows_compat != 'false') }}
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      WINDOWS_PYTHON: '3.12.0'
+    steps: *windows-steps
+
+  ci-result:
+    name: CI result
+    needs: [selection, sqlite, postgres, windows-wording, windows-compat]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report executed checks and intentional omissions
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: python .github/scripts/ci_result.py

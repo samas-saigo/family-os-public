@@ -1,0 +1,1864 @@
+{
+  "synthetic_only": true,
+  "dataset_version": "action-evaluation-v1",
+  "split": "development",
+  "cases": [
+    {
+      "id": "synthetic-action-access-1",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "access",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Building access card for your flat - Your replacement card awaits collection; collect it before 14 October 2026",
+        "sender": "access@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "apartment_or_property"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-access-2",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "access",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Building access card for your flat - Your replacement card was collected; this is the handover acknowledgment",
+        "sender": "access@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "apartment_or_property"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-access-3",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "access",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Building access card for your flat - Replacement card update; collection status omitted",
+        "sender": "access@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "apartment_or_property"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-amendment-1",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "amendment",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Tenant signature check on your lease amendment - Your signature is missing; sign and return the amendment by 14 October 2026",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-amendment-2",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "amendment",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Tenant signature check on your lease amendment - Your signature was accepted; the amendment is fully executed",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-amendment-3",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "amendment",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Tenant signature check on your lease amendment - Signature checklist; signature completion status not included",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-archive",
+      "scenario": "document",
+      "temporal": "historical",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Household oven receipt archive - paid in full and delivered, informational copy only",
+        "occurred_at": "2024-06-20T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "purchase",
+          "receipt"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "The title explicitly records settled purchase and delivery; no pending step is asserted.",
+      "evidence_refs": [
+        "subject",
+        "occurred_at"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-boarding-1",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "boarding",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Passenger document check for your family flight - Your identity attachment was rejected; upload a replacement by 12 October 2026",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "flight"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-boarding-2",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "boarding",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Passenger document check for your family flight - Your replacement identity attachment was accepted; document check complete",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "flight"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-boarding-3",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "boarding",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Passenger document check for your family flight - Passenger attachment guide; acceptance status not included",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "flight"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-boiler-1",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "boiler",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this household boiler visit is confirmed, provide access at the scheduled time; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "confirmed",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "maintenance"
+        ],
+        "action": "required"
+      },
+      "rationale": "The explicit preparation instruction is conditional on confirmed status, and the visible status satisfies that condition.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-boiler-2",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "boiler",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this household boiler visit is confirmed, provide access at the scheduled time; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "cancelled",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "maintenance"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Cancelled status removes this event-specific preparation request; no replacement obligation is asserted.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-boiler-3",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "boiler",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this household boiler visit is confirmed, provide access at the scheduled time; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "tentative",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "maintenance"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Tentative status leaves the conditional preparation obligation unresolved; do not assume confirmation.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-catalog",
+      "scenario": "marketing",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Kitchen accessories advertising catalogue: optional browsing only, no purchase or reply requested",
+        "sender": "catalog@example.invalid",
+        "occurred_at": "2026-10-08T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "irrelevant",
+        "domain": [
+          "ignore",
+          "generic_promotion"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "An explicitly optional advertisement asserts no household transaction or required step.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-check-in",
+      "scenario": "appointment",
+      "temporal": "unknown",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "Afternoon check-in",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "eventType": "default"
+        }
+      },
+      "expected": {
+        "relevance": "uncertain",
+        "domain": null,
+        "action": "uncertain"
+      },
+      "rationale": "A generic meeting title and calendar membership do not establish household purpose or a required step.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-claim",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Your appliance warranty proof was rejected: resubmit a readable receipt by 14 October 2026",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "purchase",
+          "warranty"
+        ],
+        "action": "required"
+      },
+      "rationale": "The workflow title explicitly reports a rejected submission and a specific outstanding resubmission; MIME type is not the evidence.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-clinic-1",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "clinic",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your animal clinic invoice - Your invoice balance is still outstanding; settle it by 12 October 2026",
+        "sender": "clinic@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "invoice"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-clinic-2",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "clinic",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your animal clinic invoice - Your invoice balance is zero; the receipt confirms settlement",
+        "sender": "clinic@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "invoice"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-clinic-3",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "clinic",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your animal clinic invoice - Invoice issued; balance and settlement information missing",
+        "sender": "clinic@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "invoice"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-club-1",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "club",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Family recreation centre membership - Your renewal is awaiting consent; confirm or decline renewal by 12 October 2026",
+        "sender": "club@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "membership"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-club-2",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "club",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Family recreation centre membership - Your membership renewed automatically and the fee cleared; no reply needed",
+        "sender": "club@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "membership"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-club-3",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "club",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Family recreation centre membership - Renewal notice; consent and payment status unspecified",
+        "sender": "club@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "membership"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-digest",
+      "scenario": "marketing",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Public gardening digest: informational articles only; no account, booking or response requested",
+        "sender": "digest@example.invalid",
+        "occurred_at": "2026-10-08T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "irrelevant",
+        "domain": [
+          "ignore",
+          "newsletter"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "An informational public digest is neither a household-specific obligation nor a required reply.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-lab-1",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "lab",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Lab follow-up instruction for your pet - Your repeat sample is still missing; arrange sample collection by 15 October 2026",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "lab"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-lab-2",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "lab",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Lab follow-up instruction for your pet - Your repeat sample was received; the collection request is closed",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "lab"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-lab-3",
+      "scenario": "document",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "lab",
+      "cue_field": "subject",
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Lab follow-up instruction for your pet - Repeat-sample note; receipt and follow-up status not included",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "lab"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Annotation judges the visible workflow assertion, not its authenticity. A document title alone naming a bill, PDF or renewal would not suffice."
+    },
+    {
+      "id": "synthetic-action-lock",
+      "scenario": "security",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Your household card is locked pending your replacement approval; approve or decline replacement by 12 October 2026",
+        "sender": "lock@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "finance_reference",
+          "card_replacement"
+        ],
+        "action": "required"
+      },
+      "rationale": "Explicit missing replacement approval requires a decision; the subject does not authorize any financial write.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-lodging-1",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "lodging",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your family lodging deposit - Your deposit is outstanding; submit the deposit by 11 October 2026",
+        "sender": "lodging@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "hotel"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-lodging-2",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "lodging",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your family lodging deposit - Your deposit was received and the room is secured; no reply needed",
+        "sender": "lodging@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "hotel"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-lodging-3",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "lodging",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your family lodging deposit - Deposit information; receipt status missing",
+        "sender": "lodging@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "hotel"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-medicine-1",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "medicine",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Pet prescription collection - Your ordered prescription is waiting; collect it before 13 October 2026",
+        "sender": "medicine@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "medication"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-medicine-2",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "medicine",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Pet prescription collection - Your prescription was collected; this is the collection record",
+        "sender": "medicine@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "medication"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-medicine-3",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "medicine",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Pet prescription collection - Prescription collection information; readiness and collection status omitted",
+        "sender": "medicine@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "medication"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-old-charge",
+      "scenario": "historical",
+      "temporal": "historical",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Household heating account instalment requested for November 2023; payment status unspecified",
+        "sender": "old-charge@example.invalid",
+        "occurred_at": "2023-11-01T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "utility"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "An old request cannot establish a currently outstanding charge without completion evidence; age also does not prove settlement.",
+      "evidence_refs": [
+        "subject",
+        "occurred_at"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-overview",
+      "scenario": "document",
+      "temporal": "unknown",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_drive",
+        "record_type": "document",
+        "subject": "Documents overview.pdf",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "mimeType": "application/pdf",
+          "trashed": false,
+          "removed": false
+        }
+      },
+      "expected": {
+        "relevance": "uncertain",
+        "domain": null,
+        "action": "uncertain"
+      },
+      "rationale": "A generic filename and PDF MIME type establish neither household relevance, domain nor outstanding action.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-past-visit",
+      "scenario": "historical",
+      "temporal": "historical",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "Pet consultation completed on 4 May 2024; visit record only, no follow-up requested",
+        "occurred_at": "2024-05-04T08:00:00Z",
+        "raw_metadata": {
+          "eventType": "default"
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "vet_visit"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Completion is explicit; this record contains no remaining or replacement instruction.",
+      "evidence_refs": [
+        "subject",
+        "occurred_at"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-prep",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "Your pet consultation is booked: bring the current allergy chart on 12 October 2026",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "eventType": "default"
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "vet_visit"
+        ],
+        "action": "required"
+      },
+      "rationale": "The confirmed visit has an explicit preparation instruction, not merely an appointment topic.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-rail-1",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "rail",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Household rail seat request - Your seat request awaits your acceptance; accept or decline by 11 October 2026",
+        "sender": "rail@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "reservation"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-rail-2",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "rail",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Household rail seat request - Your seat request was withdrawn; this acknowledgment needs no reply",
+        "sender": "rail@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "reservation"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-rail-3",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "rail",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Household rail seat request - Seat request update; acceptance status not stated",
+        "sender": "rail@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "reservation"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-recall-1",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "recall",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Safety campaign for your household car - Your repair booking is still missing; arrange the recall repair by 16 October 2026",
+        "sender": "recall@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "vehicle",
+          "recall"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-recall-2",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "recall",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Safety campaign for your household car - Your recall repair was completed; this is the completion acknowledgment",
+        "sender": "recall@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "vehicle",
+          "recall"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-recall-3",
+      "scenario": "maintenance",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "recall",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Safety campaign for your household car - Repair campaign notice; whether your car still needs repair is not stated",
+        "sender": "recall@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "vehicle",
+          "recall"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-renewal-hint",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Household subscription renewal date is approaching",
+        "sender": "renewal-hint@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "household_admin",
+          "renewal"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "A date and renewal topic do not reveal whether renewal is automatic, already paid, optional or outstanding.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-rental-1",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "rental",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this family rental-car pickup is confirmed, bring the driving licence; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "confirmed",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "rental_car"
+        ],
+        "action": "required"
+      },
+      "rationale": "The explicit preparation instruction is conditional on confirmed status, and the visible status satisfies that condition.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-rental-2",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "rental",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this family rental-car pickup is confirmed, bring the driving licence; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "cancelled",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "rental_car"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Cancelled status removes this event-specific preparation request; no replacement obligation is asserted.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-rental-3",
+      "scenario": "reservation",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "rental",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this family rental-car pickup is confirmed, bring the driving licence; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "tentative",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "travel",
+          "rental_car"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Tentative status leaves the conditional preparation obligation unresolved; do not assume confirmation.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tax-1",
+      "scenario": "government",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "tax",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your annual tax certificate request - Your request awaits identity confirmation; complete confirmation by 16 October 2026",
+        "sender": "tax@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "finance_reference",
+          "tax_document_notice"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tax-2",
+      "scenario": "government",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "tax",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your annual tax certificate request - Your identity confirmation was accepted; the certificate is now available",
+        "sender": "tax@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "finance_reference",
+          "tax_document_notice"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tax-3",
+      "scenario": "government",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "tax",
+      "cue_field": "subject",
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your annual tax certificate request - Certificate request update; identity-confirmation status not provided",
+        "sender": "tax@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "finance_reference",
+          "tax_document_notice"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tenant-1",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "tenant",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Residential tenancy extension - Your extension is unsigned; sign and return it by 14 October 2026",
+        "sender": "tenant@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tenant-2",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "tenant",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Residential tenancy extension - Your signed extension was received; the extension is complete",
+        "sender": "tenant@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-tenant-3",
+      "scenario": "renewal",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "tenant",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Residential tenancy extension - Extension paperwork available; signature status not stated",
+        "sender": "tenant@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "lease"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-vaccine-1",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "vaccine",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this pet vaccination visit is confirmed, bring the vaccination booklet; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "confirmed",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "vaccination"
+        ],
+        "action": "required"
+      },
+      "rationale": "The explicit preparation instruction is conditional on confirmed status, and the visible status satisfies that condition.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-vaccine-2",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "vaccine",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this pet vaccination visit is confirmed, bring the vaccination booklet; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "cancelled",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "vaccination"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Cancelled status removes this event-specific preparation request; no replacement obligation is asserted.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-vaccine-3",
+      "scenario": "appointment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "vaccine",
+      "cue_field": "raw_metadata.status",
+      "input": {
+        "provider": "google_calendar",
+        "record_type": "calendar_event",
+        "subject": "If this pet vaccination visit is confirmed, bring the vaccination booklet; do not prepare while status is tentative",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {
+          "status": "tentative",
+          "eventType": "default",
+          "start": {
+            "dateTime": "2026-10-12T09:00:00Z"
+          },
+          "end": {
+            "dateTime": "2026-10-12T09:45:00Z"
+          }
+        }
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "pet",
+          "vaccination"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Tentative status leaves the conditional preparation obligation unresolved; do not assume confirmation.",
+      "evidence_refs": [
+        "subject",
+        "raw_metadata.status"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-warranty",
+      "scenario": "purchase",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": null,
+      "cue_field": null,
+      "input": {
+        "provider": "outlook",
+        "record_type": "message",
+        "subject": "Your dishwasher warranty claim lacks purchase proof; provide the proof by 14 October 2026",
+        "sender": "warranty@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "purchase",
+          "warranty"
+        ],
+        "action": "required"
+      },
+      "rationale": "The subject names an incomplete claim and the specific missing submission.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "Judge only the visible minimized metadata. Do not infer body contents, hidden account state, completion from age, or obligations from MIME type."
+    },
+    {
+      "id": "synthetic-action-water-1",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "water",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Water account instalment for October - Your instalment remains unpaid; pay 42 synthetic units by 12 October 2026",
+        "sender": "water@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "utility"
+        ],
+        "action": "required"
+      },
+      "rationale": "Visible metadata explicitly addresses an outstanding specific step to the recipient with a bounded deadline; no body or balance lookup is needed.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-water-2",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "explicit",
+      "counterfactual_group": "water",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Water account instalment for October - Your instalment has been paid in full; nothing remains payable",
+        "sender": "water@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "utility"
+        ],
+        "action": "not_required"
+      },
+      "rationale": "Visible metadata explicitly reports completion, closure or automatic completion with no further step for this request.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    },
+    {
+      "id": "synthetic-action-water-3",
+      "scenario": "payment",
+      "temporal": "current",
+      "truth_certainty": "ambiguous",
+      "counterfactual_group": "water",
+      "cue_field": "subject",
+      "input": {
+        "provider": "gmail",
+        "record_type": "message",
+        "subject": "Water account instalment for October - Instalment notice; settlement status is unavailable",
+        "sender": "water@example.invalid",
+        "occurred_at": "2026-10-09T08:00:00Z",
+        "raw_metadata": {}
+      },
+      "expected": {
+        "relevance": "relevant",
+        "domain": [
+          "home",
+          "utility"
+        ],
+        "action": "uncertain"
+      },
+      "rationale": "Visible metadata names the household topic but omits the decisive outstanding/completed status; neither obligation nor clearance is established.",
+      "evidence_refs": [
+        "subject"
+      ],
+      "ambiguity_notes": "No external account state, recipient resolution or missing message content is assumed."
+    }
+  ]
+}

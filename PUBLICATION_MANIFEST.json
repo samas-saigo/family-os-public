@@ -1,0 +1,102 @@
+{
+  "publication_format": "privacy-source-snapshot-v1",
+  "source_commit": "ecc864af1ba3a2d9d9b15a0ed69f9e3b8032aa25",
+  "source_repository": "samas-saigo/family-os",
+  "imported_history": false,
+  "source_file_count": 718,
+  "modified_files": [
+    {
+      "path": "README.md",
+      "source_lf_sha256": "41fa21d9a573475b783e1b4f7a9993ebf476b233db69b65c86e8423de222b06d",
+      "public_lf_sha256": "be27a6ed4c9c4afb69048b09ac16924989d0c2b0da3b9dad99fcb372732edd42"
+    },
+    {
+      "path": "docs/architecture.md",
+      "source_lf_sha256": "73cdd4bff4dd87d13a218029c3d29d1d54212548cad2a9c52d449f230288e240",
+      "public_lf_sha256": "491f9e00ba3b16918e3e96d404d377d5380f7a0df85b666d7632a041b4bbfc01"
+    },
+    {
+      "path": "docs/ci-cost-phase1.md",
+      "source_lf_sha256": "a72ac453fbfc27dc110f8727e4f720e840f3df6d94092fff21bd99038c587849",
+      "public_lf_sha256": "a3051dd03135f2f849d3c6e284f1d2b2c186393d5fc03c6f0c7c0b6d825dfbf0"
+    },
+    {
+      "path": "docs/data-model.md",
+      "source_lf_sha256": "9e8b8393dbc917d3051db712209193e65f12adc4cb982fd4b1f0257ac038c6b3",
+      "public_lf_sha256": "5c553fecaec4fc22ea64b84c31c21e1789e04ed3f3a40be8694e10ba0fbac3a7"
+    },
+    {
+      "path": "docs/single-email-runtime-diagnostic-v1.md",
+      "source_lf_sha256": "5d20ee9acb6aca3d61cd9cf6977aac168481378888ce78591e6fcca5ad0d7114",
+      "public_lf_sha256": "af21e3f2ed536fbc6c64d23a5bd1ddb849322f0341e13dfc9d08870cab21ed32"
+    },
+    {
+      "path": "docs/single-email-runtime-diagnostic-v2.md",
+      "source_lf_sha256": "53c6e9207e26509ebf79324e108a814661829e0b56ee02b3a7c65a873a7678be",
+      "public_lf_sha256": "4ee2376b4d8862cd1702682e5e86dc12c33df62c84c016d9fd38fe2b5eb8b5e7"
+    },
+    {
+      "path": "docs/synthetic-email-action-evidence-v1.md",
+      "source_lf_sha256": "ba494b322f2645eaf974ea38ad4fa780178fee66eb0b8960aae68821bb6aa376",
+      "public_lf_sha256": "3b2a70704af6886455dd63a51f33b60f972e2bb96e2596b825966e975ef54d0f"
+    },
+    {
+      "path": "docs/synthetic-email-model-evidence-v1.md",
+      "source_lf_sha256": "1808fa4a88bb5f965d4c5c7aca9c3a231f6d51366dd74a7c202bb4bbc6e47514",
+      "public_lf_sha256": "aa3d661d612c2871f7ff6ba876d75001c6b1424f31b7e3468b2e9ffbf086afd6"
+    },
+    {
+      "path": "docs/synthetic-email-model-evidence-v2.md",
+      "source_lf_sha256": "4a0ef58d1fcb53f5bc1d64f59060402409b44e51db4948f00fb0156b9109aaf5",
+      "public_lf_sha256": "840dd03fc4966b123729cfd54810d556084bae8f2c499aab0dd9e8fefa392e6b"
+    },
+    {
+      "path": "docs/synthetic-email-structure-diagnostic-v1.md",
+      "source_lf_sha256": "21b4b4e2dde21838c977cdb80fa0e0310bbe606c7f311d507f45ae3170b6d764",
+      "public_lf_sha256": "46bbee701bf2dc39cbb19223827a90770ba526f063788ac1cb712e44805dc023"
+    },
+    {
+      "path": "experiments/configs/synthetic-email-relational-schema-v1.json",
+      "source_lf_sha256": "0f6492ebaa67294de1f1c976df8d7387e8229a6fe94dfc46f6824673a82fa5e0",
+      "public_lf_sha256": "872432337d83a89330fd31d235bd1e6ded541d90f2e801ea21def6cc5793f4b2"
+    },
+    {
+      "path": "experiments/configs/synthetic-email-semantic-prompt-v1.json",
+      "source_lf_sha256": "146746b2bf9820608d686685307b47f52f24e9381d7c97d25e1dc3d9f623af6b",
+      "public_lf_sha256": "e95e846ae78f186f8a7f6f624f5a6fe48a2321f501461bbb3b4c5209344a2006"
+    },
+    {
+      "path": "experiments/configs/synthetic-email-structure-diagnostic-v1.json",
+      "source_lf_sha256": "3d28de6beff0f193bb3dbbb4f7ccf3de5727f2c5faa47f5f348109d5e29f3bb8",
+      "public_lf_sha256": "3e756cd1112e27a9acb6a00dc93c6b665eeda0196f0de7aedf701e6ea27c6741"
+    },
+    {
+      "path": "experiments/email_relational_schema.py",
+      "source_lf_sha256": "97e54a9bc39b46c45f7d8b973803843168553d78cbf32252ceb4e8f7ba2eccb6",
+      "public_lf_sha256": "6598a3c384ed0a1e4d7dbf0466ba87606afb9ee01af6813ba5cf3e32c0479e84"
+    },
+    {
+      "path": "experiments/email_semantic_prompt.py",
+      "source_lf_sha256": "956637ede6f4272e8b4ead1899ed05a09fa7044f1d8365f899c57b3168e1aa9b",
+      "public_lf_sha256": "643d827b6b278561c5911943ac581f03ddb3aa79dd88861b50e353a3009a2cfa"
+    },
+    {
+      "path": "experiments/email_structure_diagnostic.py",
+      "source_lf_sha256": "d0655cef13bafa1fb496a879d87592d104ed6d523d2108f68495579defe436f5",
+      "public_lf_sha256": "5eee3bd0cb33727b900da0bb35f049f0553a70686f929169e2a28796437e79b3"
+    }
+  ],
+  "pin_update_rounds": 6,
+  "model_inference": false,
+  "validation": {
+    "offline_assertions": 13725,
+    "real_inference": false,
+    "cloud_ci_triggered": false,
+    "python": "3.12.14",
+    "full_pytest_run": false,
+    "native_windows_run": false,
+    "product_source_unchanged": true,
+    "generation_config_unchanged": true,
+    "implementation_ast_changed_only_in_checksum_literals": true
+  }
+}

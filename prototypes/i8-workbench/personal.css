@@ -1,0 +1,5 @@
+/* I8-only additions to the approved I7 dialog; no page/layout redesign. */
+.i8-reason label { display:block; }
+.i8-reason select { display:block; margin:12px 0; width:100%; max-width:100%; }
+.i8-resume-entry { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:16px 0; }
+.i8-resume-entry p { flex:1 1 180px; margin:0; }

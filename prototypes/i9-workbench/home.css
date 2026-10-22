@@ -1,0 +1,27 @@
+/* I9 only: reuse the connected Calm Premium palette and existing modal controls. */
+html[data-i9] .i9-totals { display:flex; flex-wrap:wrap; gap:12px 28px; margin:4px 0 28px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+html[data-i9] .i9-totals button { display:flex; align-items:center; gap:10px; background:transparent; border:0; padding:4px 0; text-align:start; min-height:44px; }
+html[data-i9] .i9-totals strong { font-size:1.4rem; font-weight:600; }
+html[data-i9] .i9-totals span { color:var(--muted); font-size:.88rem; }
+html[data-i9] .i9-section { margin:0 0 32px; scroll-margin-top:16px; }
+html[data-i9] .i9-section-heading { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 16px; margin-bottom:16px; }
+html[data-i9] .i9-section-heading h2 { display:flex; align-items:center; gap:10px; margin:0; font-size:1.1rem; }
+html[data-i9] .i9-count { color:var(--muted); font-size:.85rem; font-weight:400; }
+html[data-i9] .i9-section-heading button { font-size:.85rem; }
+html[data-i9] .i9-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+html[data-i9] .i9-card { display:flex; flex-direction:column; align-items:flex-start; gap:12px; min-width:0; padding:18px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+html[data-i9] .i9-card h3 { margin:0; font-size:1.03rem; line-height:1.5; overflow-wrap:anywhere; }
+html[data-i9] .i9-card p { margin:0; line-height:1.6; }
+html[data-i9] .i9-reason, html[data-i9] .i9-meta, html[data-i9] .i9-empty { color:var(--muted); font-size:.88rem; }
+html[data-i9] .i9-meta { display:flex; flex-direction:column; gap:6px; margin-top:auto; overflow-wrap:anywhere; }
+html[data-i9] [aria-disabled=true] { cursor:progress; }
+html[data-i9] .i9-card button { min-height:44px; max-width:100%; white-space:normal; }
+@media(max-width:959px) { html[data-i9] .i9-cards { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:730px) {
+  html[data-i9] .i9-cards { grid-template-columns:1fr; }
+  html[data-i9] .i9-totals { gap:8px 18px; margin-bottom:20px; padding-bottom:12px; }
+  html[data-i9] .i9-totals button { flex-direction:column; align-items:flex-start; gap:3px; }
+  html[data-i9] .i9-totals span { font-size:.8rem; }
+  html[data-i9] .i9-section-heading { margin-bottom:12px; }
+  html[data-i9] .i9-card { padding:16px; }
+}

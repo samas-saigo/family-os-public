@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Samas Family OS · 本地会话测试</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <p class="brand">Samas <small>Family OS</small></p>
+    <h1>本地会话测试</h1>
+    <p>仅限虚构数据开发测试，不是真实登录。尚未连接家庭待办、邮箱或其他账号。</p>
+    <p>在当前浏览器发起请求，再由启动终端批准指定虚构成员。另一成员请使用独立浏览器配置文件。</p>
+    <p id="status" role="status" aria-live="polite">正在检查当前测试会话。</p>
+    <p id="request" hidden></p>
+    <div class="actions">
+      <button id="start" type="button" disabled>发起测试会话请求</button>
+      <button id="check" type="button">检查当前会话</button>
+      <button id="cancel" type="button" hidden>取消请求</button>
+      <button id="logout" type="button" hidden>注销测试会话</button>
+    </div>
+    <p>Cookie 不受支持、服务中断或权限失效时停止显示会话内容；不会回退为离线演示数据。</p>
+  </main>
+</body>
+</html>

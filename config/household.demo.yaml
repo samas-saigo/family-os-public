@@ -1,0 +1,18 @@
+household:
+  id: demo_household
+  name: Synthetic demo household
+people:
+  - id: demo_person
+    display_name: Demo Person
+source_accounts:
+  - id: demo_mailbox
+    provider: fixture
+    owner_type: person
+    owner_id: demo_person
+    external_account: demo@example.invalid
+    enabled: true
+  - id: demo_shared
+    provider: fixture
+    owner_type: household
+    owner_id: demo_household
+    enabled: true

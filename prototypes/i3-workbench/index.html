@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Samas Family OS · 本地后端连接测试</title>
+  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/connected.css">
+  <script src="/contract.js" defer></script><script src="/workbench.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容 / Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand" role="img" aria-label="Samas Family OS"><span class="brand-word">Samas</span></div>
+      <details id="secondary-menu" class="secondary-menu"><summary id="more-label">更多</summary><div id="secondary-body"></div></details>
+      <nav id="navigation" aria-label="家庭应用导航"></nav>
+    </aside>
+    <div class="workspace">
+      <header class="topbar"><div class="offline" id="notice">本地后端连接测试 · 虚构数据 · 只读</div>
+        <div class="preferences connection-controls"><span id="session-member" class="session-member" hidden><span id="member-label">当前成员</span><strong id="member-status"></strong></span><label id="language-label" class="persona"><span id="language-text">语言</span><select id="language" aria-label="语言"><option value="zh-CN">简体中文</option><option value="en-US">English</option></select></label><button id="reload" type="button">重新读取</button></div>
+      </header>
+      <p id="feedback" class="feedback" role="status" aria-live="polite" data-active="false"></p>
+      <main id="main" tabindex="-1" data-view="home"></main>
+    </div>
+  </div>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div id="dialog-body"></div></dialog>
+  <noscript>此连接测试需要 JavaScript，不会使用离线任务替代后端数据。</noscript>
+</body>
+</html>

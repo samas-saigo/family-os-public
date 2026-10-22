@@ -1,0 +1,54 @@
+household:
+  id: household
+  name: "Our Family"
+
+people:
+  - id: person_1
+    display_name: "Person 1"
+    aliases: []
+
+  - id: person_2
+    display_name: "Person 2"
+    aliases: []
+
+source_accounts:
+  # Add one block per connected mailbox/account.
+  # A person can have any number of source accounts.
+  - id: gmail_person_1_primary
+    provider: gmail
+    owner_type: person
+    owner_id: person_1
+    external_account: null
+    enabled: true
+
+  - id: gmail_person_2_primary
+    provider: gmail
+    owner_type: person
+    owner_id: person_2
+    external_account: null
+    enabled: true
+
+  - id: calendar_primary
+    provider: google_calendar
+    owner_type: household
+    owner_id: household
+    external_account: null
+    enabled: true
+
+policies:
+  writes:
+    send_email: confirm
+    delete_email: deny
+    move_drive_file: confirm
+    create_calendar_event: confirm
+    update_calendar_event: confirm
+    create_task: suggest
+
+  extraction:
+    auto_accept_confidence: 0.95
+    review_confidence: 0.75
+
+  dedupe:
+    exact_hash: auto_merge
+    strong_match: auto_merge
+    semantic_match: review

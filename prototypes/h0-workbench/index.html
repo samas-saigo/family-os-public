@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Samas Family OS · 家庭助手（离线演示）</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="fixtures.js" defer></script>
+  <script src="translations.js" defer></script>
+  <script src="i18n.js" defer></script>
+  <script src="model.js" defer></script>
+  <script src="presentation.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="chrome.skip">跳转到主要内容</a>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand" role="img" aria-label="Samas Family OS"><span class="brand-word" data-i18n="chrome.brand">Samas</span></div>
+      <details id="secondary-menu" class="secondary-menu"><summary data-i18n="ux.more">更多</summary><div id="secondary-body"><p class="menu-note" data-i18n="chrome.memory">所有变更仅保留在本标签页内存中，刷新即可重置。</p></div></details>
+      <nav id="navigation" aria-label="家庭应用导航" data-i18n-label="chrome.nav"></nav>
+      <div class="sidebar-bottom"><button id="demo-controls" class="subtle" data-i18n="ui.demo.sharing.controls">设置与隐私</button><button id="reset" class="subtle" data-i18n="chrome.reset">重新开始演示</button></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="offline"><span data-i18n="chrome.notice">离线演示 · 虚构数据 · 无真实操作</span></div>
+        <div class="preferences">
+          <label class="persona"><span data-i18n="chrome.persona">演示成员，非登录</span><select id="member" aria-label="演示成员，不是身份认证" data-i18n-label="chrome.member"><option value="nora">诺拉</option><option value="julian">朱利安</option></select></label>
+          <label class="persona"><span data-i18n="chrome.language">语言</span><select id="language" aria-label="语言" data-i18n-label="chrome.language"><option value="zh-CN">简体中文</option><option value="en-US">English</option></select></label>
+        </div>
+      </header>
+      <details id="search-controls" class="search-controls"><summary data-i18n="ux.search">筛选</summary><div class="searchbar"><input aria-label="搜索" data-i18n-label="chrome.search" id="search" type="search" maxlength="80" placeholder="查找待办、疑问或日期…" autocomplete="off"><label for="category" class="sr-only" data-i18n="chrome.category">类别筛选</label><select id="category" aria-label="类别筛选" data-i18n-label="chrome.category"><option value="all" data-i18n="ui.all.categories">全部类别</option></select><label for="assignee" class="sr-only" data-i18n="chrome.assignment">负责人筛选</label><select id="assignee" aria-label="负责人筛选" data-i18n-label="chrome.assignment"><option value="all" data-i18n="chrome.householdFilter">整个家庭</option><option value="me" data-i18n="chrome.meFilter">分配给我或双方</option></select></div></details>
+      <p id="feedback" class="feedback" role="status" aria-live="polite" data-active="false"></p>
+      <main id="main" tabindex="-1"></main>
+    </div>
+  </div>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div id="dialog-body"></div></dialog>
+  <noscript data-i18n="chrome.noscript">此离线原型需要启用 JavaScript，仅使用本地文件和虚构数据。</noscript>
+</body>
+</html>

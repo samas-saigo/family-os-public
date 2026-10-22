@@ -1,0 +1,22 @@
+{
+  "synthetic_only": true,
+  "dataset_version": "action-evaluation-v1",
+  "rubric_version": "action-rubric-v1",
+  "projection_schema": "metadata_only_v1",
+  "projection_engine": "synthetic-e1",
+  "rubric_sha256": "258b0c09b8acb20066c3bd064b19f850829b1d6bf84cdb7f24885212f55cb613",
+  "splits": {
+    "development": {
+      "case_count": 60,
+      "annotated_sha256": "d55c272c19dfa241ce4643c6ce8521cbe18befbdfccdd409163139c2b6dd23a2",
+      "input_sha256": "185b5f61aa635b7cbdc2089e614d45056109322cb13c3e59ba865b3e84cc6bd5"
+    },
+    "holdout": {
+      "case_count": 30,
+      "annotated_sha256": "e9b7fe03ab4d4c5438ef98f8d7438841561fab8daa9fb30a70823fb370162e7a",
+      "input_sha256": "add63cdaa92d289fa1d22c8fd27009e2034f1d7fb9a42dfed8d24f4080959712"
+    }
+  },
+  "corpus_sha256": "48f1578ebe93a26c307b9e09c7aabf1b10f2127af3018f43815d15ac0a3f3aeb",
+  "taxonomy_sha256": "bb4824820c291af23f499026de8406e014d332672fa83d9961ee414d6ab7c24b"
+}

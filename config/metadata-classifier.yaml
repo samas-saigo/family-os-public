@@ -1,0 +1,118 @@
+# Intentional edits should bump ruleset_version; content changes also change identity.
+ruleset_version: metadata-v1
+rules:
+  - id: insurance_renewal
+    strength: strong
+    when:
+      subject_phrases_any: [insurance renewal due, insurance expires on, renew your insurance]
+    prediction:
+      relevance: relevant
+      domain: [household_admin, insurance]
+      action: required
+  - id: hotel_confirmation
+    strength: strong
+    when:
+      subject_phrases_any: [hotel reservation confirmed]
+    prediction:
+      relevance: relevant
+      domain: [travel, hotel]
+      action: not_required
+  - id: utility_bill
+    strength: strong
+    when:
+      subject_phrases_any: [utility bill, electricity bill, water bill]
+    prediction:
+      relevance: relevant
+      domain: [home, utility]
+  - id: utility_payment_due
+    strength: strong
+    when:
+      subject_phrases_any: [payment due, action required]
+      subject_tokens_all: [utility, bill]
+    prediction:
+      action: required
+  - id: vehicle_registration
+    strength: strong
+    when:
+      subject_phrases_any: [vehicle registration renewal due]
+    prediction:
+      relevance: relevant
+      domain: [vehicle, registration]
+      action: required
+  - id: vet_appointment
+    strength: strong
+    when:
+      subject_phrases_any: [veterinary appointment, vet appointment]
+      subject_tokens_all: [action, required]
+      providers: [google_calendar]
+      record_types: [calendar_event]
+      metadata_equals: {status: confirmed}
+      metadata_present: [start.dateTime]
+    prediction:
+      relevance: relevant
+      domain: [pet, vet_visit]
+      action: required
+  - id: order_shipped
+    strength: strong
+    when:
+      subject_phrases_any: [order shipped]
+    prediction:
+      relevance: relevant
+      domain: [purchase, delivery]
+      action: not_required
+  - id: bank_statement
+    strength: strong
+    when:
+      subject_phrases_any: [bank statement available]
+    prediction:
+      relevance: relevant
+      domain: [finance_reference, statement_notice]
+      action: not_required
+  - id: residential_lease
+    strength: strong
+    when:
+      subject_phrases_any: [residential lease]
+      providers: [google_drive]
+      record_types: [document]
+      metadata_equals: {mimeType: application/pdf}
+    prediction:
+      relevance: relevant
+      domain: [home, lease]
+  - id: promotion
+    strength: strong
+    when:
+      subject_phrases_any: [limited time sale, exclusive promotion]
+    prediction:
+      relevance: irrelevant
+      domain: [ignore, generic_promotion]
+      action: not_required
+  - id: newsletter
+    strength: strong
+    when:
+      subject_phrases_any: [weekly newsletter]
+    prediction:
+      relevance: irrelevant
+      domain: [ignore, newsletter]
+      action: not_required
+  - id: social_notification
+    strength: strong
+    when:
+      subject_phrases_any: [new social follower]
+    prediction:
+      relevance: irrelevant
+      domain: [ignore, social]
+      action: not_required
+  - id: market_price_alert
+    strength: strong
+    when:
+      subject_phrases_any: [stock price alert]
+    prediction:
+      relevance: irrelevant
+      domain: [ignore, market_price_alert]
+      action: not_required
+  - id: weak_attention
+    strength: weak
+    when:
+      subject_phrases_any: [renew, expiration, payment, appointment]
+    prediction:
+      action: required
