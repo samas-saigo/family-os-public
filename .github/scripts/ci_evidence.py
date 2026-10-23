@@ -225,6 +225,14 @@ def main(argv=None):
         text += ('Semantic/privacy review, changed-test strength, model outcomes and unobserved contracts: NOT CHECKED. '
                  'Existing test observations are not independent attestation.\n')
         publish(text)
+        short = dict(job=c.get('job', 'UNKNOWN'), event_head=c['source'], event_base=c['base'],
+                     checkout=c['checkout'], tree=c['tree'], run=c['run'], attempt=c['attempt'],
+                     evidence='validated' if valid else 'failed')
+        if mode == 'pytest':
+            short['tests'] = more.splitlines()[0]  # Only finite counts/status, never test prose.
+        line = json.dumps(short, sort_keys=True)
+        require(len(line) <= 2048)
+        print('CI review: ' + line)
     except (Exception, KeyboardInterrupt):
         valid = False
         # No exception value/traceback, identity string, trailer or raw XML emitted.

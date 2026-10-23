@@ -34,7 +34,8 @@ checks suite/testcase counts and exit-code consistency, then removes it. No log,
 XML, workspace or model report is uploaded. Existing Windows native/Restricted,
 clipboard/recovery and twice-run offline CLI assertions remain in the shared steps.
 
-Summary contains observed pass/fail/error/skip counts and unique failure file:line
+A short job-log line also records validated identities and finite test counts/status
+(≤2KiB, no file list or raw metadata). Summary contains observed pass/fail/error/skip counts and unique failure file:line
 locations, without failure messages, parameter values, stdout/stderr or XML bodies.
 Missing locations are UNKNOWN. Absent/oversized/truncated/invalid XML, DTD/entity
 content, count inconsistency, interrupted/collection-error/no-tests exits or
