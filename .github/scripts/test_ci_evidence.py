@@ -121,6 +121,21 @@ class EvidenceTests(unittest.TestCase):
                     self.assertEqual(invoke.call_args.args[0][:3], [e.sys.executable, '-m', 'pytest'])
             self.assertIn('UNKNOWN', summary.read_text())
 
+    def test_temp_creation_and_interrupt_failures_are_finite_unknown(self):
+        c = dict(source=B, base=A, checkout=M, tree=T, run='1', attempt='1', url='https://github.com/o/r')
+        with patch.object(e.tempfile, 'TemporaryDirectory', side_effect=OSError('private_value')), \
+                patch.object(e, 'bounded', return_value=b'{}'), patch.object(e, 'context', return_value=c), \
+                patch.object(e, 'publish') as publish, patch.object(e.subprocess, 'run') as invoke, \
+                contextlib.redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(e.main(['pytest', '-q']), 1)
+            invoke.assert_not_called()
+            self.assertIn('UNKNOWN', publish.call_args.args[0]);self.assertNotIn('private', out.getvalue())
+        with patch.object(e, 'bounded', return_value=b'{}'), patch.object(e, 'context', return_value=c), \
+                patch.object(e, 'publish') as publish, patch.object(e.subprocess, 'run', side_effect=KeyboardInterrupt()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(e.main(['pytest', '-q']), 130)
+            self.assertIn('UNKNOWN', publish.call_args.args[0])
+
     def test_summary_publication_failure_never_turns_tests_green(self):
         with patch.object(e, 'bounded', side_effect=OSError('private_name')), \
                 patch.object(e, 'publish', side_effect=OSError('private_mail')), \

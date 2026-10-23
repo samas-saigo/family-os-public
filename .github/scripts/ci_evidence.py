@@ -199,14 +199,16 @@ def main(argv=None):
     raw, code, launch_ok = b'', None, True
     if mode == 'pytest':
         # Exactly one invocation; stdout/stderr remain the original detailed log.
-        with tempfile.TemporaryDirectory(prefix='ci-evidence-', dir=os.environ.get('RUNNER_TEMP')) as temp:
-            path = Path(temp) / 'pytest.xml'
-            try:
+        try:
+            with tempfile.TemporaryDirectory(prefix='ci-evidence-', dir=os.environ.get('RUNNER_TEMP')) as temp:
+                path = Path(temp) / 'pytest.xml'
                 code = subprocess.run([sys.executable, '-m', 'pytest', *args,
                                        '-o', 'junit_family=xunit1', '--junitxml=' + str(path)], check=False).returncode
                 raw = bounded(path, 8 * 1024 * 1024)
-            except (OSError, Unknown):
-                launch_ok = False
+        except (OSError, Unknown):
+            launch_ok = False
+        except KeyboardInterrupt:
+            code, launch_ok = 130, False
     valid = launch_ok
     identity_header = '## Review evidence\n\n'
     try:
