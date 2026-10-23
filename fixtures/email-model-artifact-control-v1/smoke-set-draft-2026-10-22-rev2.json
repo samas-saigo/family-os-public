@@ -1,0 +1,67 @@
+{
+  "file": "smoke-set",
+  "status": "DRAFT - pending independent gold review and formal freeze",
+  "version": "draft-2026-10-22-rev2",
+  "basis": "docs/email-model-artifact-control-v1-plan.md section 4 @ aec2b1b9cc0a673ce2fc63a205ded5bfa187423c",
+  "revision_note": "rev2: smoke-01 only — contact-biller rewritten as unconditional independent requirement (was conditional suggestion); eval set byte-identical to rev1",
+  "count": 2,
+  "groups": {
+    "s1": "宽带服务",
+    "s2": "社区活动咨询"
+  },
+  "items": [
+    {
+      "id": "smoke-01",
+      "group": "s1",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "宽带账单费用待缴，请联系宽带客服确认账单明细，请于2027-02-28前完成宽带费用缴纳",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_outstanding"
+          ],
+          [
+            "contact_biller",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2027-02-28",
+            "invoice_payment"
+          ]
+        ]
+      },
+      "rationale": "清晰多步骤：语义明确的两个不同未完成动作——费用待缴，以及无条件、独立的明确要求（请联系宽带客服确认账单明细），不再是条件建议；截止日从句“完成宽带费用缴纳”明确只针对缴费动作，绑定invoice_payment；场景（宽带服务）与评估集题面独立。"
+    },
+    {
+      "id": "smoke-02",
+      "group": "s2",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "请问社区文艺汇演的报名什么时候开始？",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "纯疑问句，存在真实的信息不足；未声称任何动作状态，输入合法，严格空证据弃答。"
+    }
+  ]
+}

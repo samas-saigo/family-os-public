@@ -1,0 +1,609 @@
+{
+  "file": "eval-set",
+  "status": "DRAFT - pending independent gold review and formal freeze",
+  "version": "draft-2026-10-22-rev1",
+  "basis": "docs/email-model-artifact-control-v1-plan.md section 4 @ aec2b1b9cc0a673ce2fc63a205ded5bfa187423c",
+  "revision_note": "rev1: focused revision per ChatGPT first review + Claude independent gold review; IDs, groups, order and quotas unchanged",
+  "count": 24,
+  "groups": {
+    "g1": "物业费账单",
+    "g2": "医疗预约",
+    "g3": "健身房会员",
+    "g4": "水电燃气账单",
+    "g5": "学校申请",
+    "g6": "车险",
+    "g7": "退货退款",
+    "g8": "社区服务"
+  },
+  "items": [
+    {
+      "id": "eval-01",
+      "group": "g1",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "物业费账单已生成：2026年12月账单共计320元，请于2027-01-15前完成缴纳",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2027-01-15",
+            "invoice_payment"
+          ]
+        ]
+      },
+      "rationale": "主题明确声称账单已生成并要求缴纳（invoice_payment未完成）；2027-01-15为缴费截止日，绑定同一gold的outstanding动作。"
+    },
+    {
+      "id": "eval-02",
+      "group": "g1",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "物业费自动扣款失败，请联系物业服务中心重新安排缴费",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_failed"
+          ],
+          [
+            "contact_biller",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确声称扣款失败（invoice_payment失败步骤），并要求联系物业（contact_biller未完成补救）；“重新安排缴费”为联系动作的目的短语，不构成另一个独立的付款要求；两动作不重复，保留全部明确步骤。"
+    },
+    {
+      "id": "eval-03",
+      "group": "g1",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "物业缴费状态存在出入：物业系统显示已缴，银行流水暂未见扣款，请等待核实",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "同一主题内两个来源给出冲突的缴费状态，无法判定任一动作状态；输入合法（无非法字段/日期），严格空证据弃答。"
+    },
+    {
+      "id": "eval-04",
+      "group": "g2",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您原定的体检预约已取消，请致电前台重新预约新的体检时间",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ],
+          [
+            "reschedule_visit",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确声称原预约已取消（attend_visit取消步骤），并要求重新预约（reschedule_visit未完成补救）。"
+    },
+    {
+      "id": "eval-05",
+      "group": "g2",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "原定于2027-06-20的牙科复诊预约因故取消，给您带来不便敬请谅解",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "informational",
+        "steps": [
+          [
+            "attend_visit",
+            "reported_cancelled"
+          ]
+        ],
+        "dates": [
+          [
+            "event_date",
+            "2027-06-20",
+            null
+          ]
+        ]
+      },
+      "rationale": "主题明确声称为预约式到访（牙科复诊）被取消（attend_visit取消步骤），不扩大attend_visit定义；2027-06-20为原定到访日期，informational日期action为null。"
+    },
+    {
+      "id": "eval-06",
+      "group": "g2",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "请问是否需要帮您预约体检？",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "纯疑问句，无独立背景事实；未声称任何动作的状态，严格空证据弃答。"
+    },
+    {
+      "id": "eval-07",
+      "group": "g3",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的健身房会员资格即将到期，请及时续费以继续享受会员权益",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确要求续费（renew_membership未完成）；“即将到期”无具体日期，不设dates。"
+    },
+    {
+      "id": "eval-08",
+      "group": "g3",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的健身房会员已成功续费，入会健康问卷已提交完成，感谢您的配合",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "renew_membership",
+            "reported_completed"
+          ],
+          [
+            "return_form",
+            "reported_completed"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确声称续费成功与问卷已提交完成；全部步骤为完成状态，满足explicit_completion。"
+    },
+    {
+      "id": "eval-09",
+      "group": "g3",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的会员资格可能存在异常，请留意后续通知并核实",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "“可能”为可能性表述，未明确声称任何动作状态；严格空证据弃答。"
+    },
+    {
+      "id": "eval-10",
+      "group": "g4",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "燃气表读数异常，本月账单暂无法生成，请联系燃气公司客服核实",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "contact_biller",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确要求联系燃气公司（contact_biller未完成）；未声称缴费状态。"
+    },
+    {
+      "id": "eval-11",
+      "group": "g4",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您2026年12月的电费已于2027-01-05缴纳成功，感谢您的及时缴费",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2027-01-05",
+            "invoice_payment"
+          ]
+        ]
+      },
+      "rationale": "主题明确声称电费缴纳成功；2027-01-05为完成日期，绑定同一gold的completed动作。"
+    },
+    {
+      "id": "eval-12",
+      "group": "g4",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "请问12月的水电费账单是否已经寄出？",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "纯疑问句，无独立背景事实；未声称任何动作的状态，严格空证据弃答。"
+    },
+    {
+      "id": "eval-13",
+      "group": "g5",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "新学期住宿申请表尚未提交，请于2027-02-10前交回班主任处",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "return_form",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2027-02-10",
+            "return_form"
+          ]
+        ]
+      },
+      "rationale": "主题明确声称申请表尚未提交且要求交回（return_form未完成）；2027-02-10为截止日，绑定outstanding动作。"
+    },
+    {
+      "id": "eval-14",
+      "group": "g5",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "本学期学费已缴纳成功，校车乘坐申请表仍待提交，请尽快办理",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_completed"
+          ],
+          [
+            "return_form",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确声称学费已缴（完成步骤）且校车申请表待提交（未完成步骤）；因含未完成步骤，状态为explicit_outstanding，保留全部明确步骤。"
+    },
+    {
+      "id": "eval-15",
+      "group": "g5",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "2027年秋季入学申请须知",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "题面仅为事项标题，未对任何动作的状态作出可判定的声称；证据不足，严格空证据弃答。"
+    },
+    {
+      "id": "eval-16",
+      "group": "g6",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的车险保费尚未缴纳，续保申请表也待提交，请于2027-03-01前完成缴费",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_outstanding",
+        "steps": [
+          [
+            "invoice_payment",
+            "reported_outstanding"
+          ],
+          [
+            "return_form",
+            "reported_outstanding"
+          ]
+        ],
+        "dates": [
+          [
+            "due_date",
+            "2027-03-01",
+            "invoice_payment"
+          ]
+        ]
+      },
+      "rationale": "主题明确声称保费未缴与续保申请表待提交（两个不同未完成动作）；续保不再映射为renew_membership，避免范围争议；截止日从句“完成缴费”明确指向缴费动作，绑定invoice_payment。"
+    },
+    {
+      "id": "eval-17",
+      "group": "g6",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "promotional",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "限时优惠：新投保车险立享八折，优惠有效期至2027-04-30",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "promotional",
+        "steps": [],
+        "dates": [
+          [
+            "offer_expiry",
+            "2027-04-30",
+            null
+          ]
+        ]
+      },
+      "rationale": "主题为促销通知，无任务步骤；2027-04-30为优惠截止日，action为null；notice_kind为promotional。"
+    },
+    {
+      "id": "eval-18",
+      "group": "g6",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "此前发送的保费催缴提醒有误，现予以撤销；您当前的缴费义务尚待核实，请等待进一步通知",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "主题在撤销此前催缴声称的同时，明确声明当前缴费义务尚待核实，故无法从本主题判定任何动作状态；否定/撤回类歧义，严格空证据弃答。"
+    },
+    {
+      "id": "eval-19",
+      "group": "g7",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的退款申请已于2027-01-20提交成功",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "explicit_completion",
+        "steps": [
+          [
+            "request_refund",
+            "reported_completed"
+          ]
+        ],
+        "dates": [
+          [
+            "reported_completion_date",
+            "2027-01-20",
+            "request_refund"
+          ]
+        ]
+      },
+      "rationale": "题面直接陈述退款“申请”动作已提交成功，未用“款项到账”推导申请动作完成；2027-01-20为该动作完成日期，绑定request_refund。"
+    },
+    {
+      "id": "eval-20",
+      "group": "g7",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "很抱歉，您的退款申请未能通过审核，款项未退回",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "informational",
+        "steps": [
+          [
+            "request_refund",
+            "reported_failed"
+          ]
+        ],
+        "dates": []
+      },
+      "rationale": "主题明确声称退款申请失败；informational允许失败步骤，无未完成任务。"
+    },
+    {
+      "id": "eval-21",
+      "group": "g7",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "您的退款申请或许需要补充身份证明材料，具体以后续通知为准",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "“或许”为可能性表述，未明确声称失败或要求补件；严格空证据弃答。"
+    },
+    {
+      "id": "eval-22",
+      "group": "g8",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "社区线上服务大厅新功能将于2027-05-01正式开放使用",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "informational",
+        "steps": [],
+        "dates": [
+          [
+            "available_date",
+            "2027-05-01",
+            null
+          ]
+        ]
+      },
+      "rationale": "主题为服务可用性通知，无任务步骤；2027-05-01为可用日期，action为null。"
+    },
+    {
+      "id": "eval-23",
+      "group": "g8",
+      "variant": "clear",
+      "input": {
+        "notice_kind": "service",
+        "provider": "outlook",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "社区服务中心春节期间营业时间调整，初一至初三暂停对外服务",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "informational",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "主题为营业时间调整通知，无任务步骤、无ISO日期。"
+    },
+    {
+      "id": "eval-24",
+      "group": "g8",
+      "variant": "ambiguous",
+      "input": {
+        "notice_kind": "service",
+        "provider": "gmail",
+        "record_type": "message",
+        "schema": "synthetic-email-metadata-v1",
+        "subject": "社区服务指南（2027年版）",
+        "synthetic_only": true
+      },
+      "gold": {
+        "state": "abstain",
+        "steps": [],
+        "dates": []
+      },
+      "rationale": "题面仅为事项标题，未对任何动作的状态作出可判定的声称；证据不足，严格空证据弃答。"
+    }
+  ]
+}
