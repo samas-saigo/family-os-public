@@ -77,7 +77,7 @@ checkout-evidence failure, while the job remains failed. No continue-on-error.
 
 Each evidence summary ≤32KiB; no silent truncation. Changes ≤50 records, path ≤512
 UTF-8 bytes; commits ≤100, each raw commit object ≤64KiB; Git output ≤1MiB, timeout30s.
-JUnit ≤8MiB/20000 testcases; at most20 unique failure locations. Exceeding a limit
+JUnit ≤32MiB/20000 testcases; at most20 unique failure locations. Exceeding a limit
 reports UNKNOWN and fails evidence rather than claiming a complete check. Paths are
 escaped; no arbitrary names, emails, model prose or exception details are published.
 Temporary XML may remain until runner disposal on hard cancellation; it is never an
@@ -97,3 +97,11 @@ with pytest upgrades, and the explicit identity/trailer policy reviewed. JUnit w
 adds bounded I/O to the existing run; Git checks reuse existing history. No claimed
 savings percentage or repeated cloud baseline. Validate fault cases locally and use
 one normal final-HEAD CI run. ChatGPT → Hanabi → user manual merge; keep PR open.
+
+The temporary XML bound is32MiB: offline collection of the existing8328 testcases
+produced18,781,328 bytes of testcase metadata alone, mostly parameter IDs. An
+initial8MiB bound correctly reported UNKNOWN despite passing tests; it was not
+compatible with this existing matrix. The bounded input allowance now fits that
+measured source; count/exit validation,32KiB summary and2KiB short-log limits remain
+unchanged. No parameter IDs are copied into evidence, no test IDs/selection are
+rewritten, and no full tests were rerun locally to obtain this measurement.

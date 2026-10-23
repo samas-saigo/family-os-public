@@ -98,13 +98,21 @@ class EvidenceTests(unittest.TestCase):
         self.assertFalse(e.test_summary(xml('<failure/>', failures=1), 0)[1])
 
     def test_missing_truncated_oversized_inconsistent_dtd_and_partial_are_unknown(self):
-        for raw, code in ((b'', 0), (xml()[:-5], 0), (b'x' * (8 * 1024 * 1024 + 1), 0),
+        for raw, code in ((b'', 0), (xml()[:-5], 0), (b'x' * (e.XML_LIMIT + 1), 0),
                           (xml(tests=2), 0), (xml(skipped=1), 0), (xml(), 1), (xml(), 2),
                           (b'<!DOCTYPE x [<!ENTITY leak "secret">]>' + xml(), 0)):
             text, valid = e.test_summary(raw, code)
             self.assertFalse(valid);self.assertIn('UNKNOWN', text);self.assertNotIn('passed:', text)
         text, valid = e.test_summary(xml('<skipped/>', skipped=1), 0)
         self.assertTrue(valid);self.assertIn('skipped: 1', text)
+
+    def test_existing_large_parameter_ids_fit_bounded_xml_without_being_published(self):
+        # The existing 8328-item collection alone has ~18.8MB of testcase metadata.
+        raw = xml(name='test_value[' + 'private_value' * 800000 + ']')
+        self.assertGreater(len(raw), 8 * 1024 * 1024)
+        self.assertLess(len(raw), e.XML_LIMIT)
+        text, valid = e.test_summary(raw, 0)
+        self.assertTrue(valid);self.assertIn('passed: 1', text);self.assertNotIn('private_value', text)
 
     def test_wrapper_runs_pytest_once_and_preserves_failure_on_missing_evidence(self):
         with tempfile.TemporaryDirectory() as temp:

@@ -10,6 +10,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 LIMIT = 32768
+XML_LIMIT = 32 * 1024 * 1024
 SHA = re.compile(r'[0-9a-f]{40}')
 EMAIL = '337128921+samas-saigo@users.noreply.github.com'
 IDENTITIES = {('Samas Maintainer', EMAIL), ('samas-saigo', EMAIL)}
@@ -140,7 +141,7 @@ def changes(c, revision=git):
 
 
 def junit(raw, exit_code):
-    require(len(raw) <= 8 * 1024 * 1024 and b'<!DOCTYPE' not in raw and b'<!ENTITY' not in raw)
+    require(len(raw) <= XML_LIMIT and b'<!DOCTYPE' not in raw and b'<!ENTITY' not in raw)
     root = ET.fromstring(raw)
     require(root.tag == 'testsuites' and len(root) == 1 and root[0].tag == 'testsuite')
     suite = root[0]
@@ -204,7 +205,7 @@ def main(argv=None):
                 path = Path(temp) / 'pytest.xml'
                 code = subprocess.run([sys.executable, '-m', 'pytest', *args,
                                        '-o', 'junit_family=xunit1', '--junitxml=' + str(path)], check=False).returncode
-                raw = bounded(path, 8 * 1024 * 1024)
+                raw = bounded(path, XML_LIMIT)
         except (OSError, Unknown):
             launch_ok = False
         except KeyboardInterrupt:
