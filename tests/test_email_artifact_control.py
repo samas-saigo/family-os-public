@@ -17,6 +17,12 @@ BY_INPUT = {d.wording.canonical(c['input']):c for cs in CORPORA.values() for c i
 EXECUTION = dict(commit='a'*40,tree='b'*40,kind='offline_mock')
 
 
+class MockTransport(d.Transport):
+    """Explicit offline override; production request now always checks live authority."""
+    def request(self,method,path,value=None):
+        return d.clone(d.compat.old.Transport.request,parent=d.reply_boundary(self.model['tag']))(self,method,path,value)
+
+
 @pytest.fixture(autouse=True)
 def offline(monkeypatch):
     def deny(*a,**k): pytest.fail('Real network or old selector forbidden')
@@ -72,7 +78,7 @@ class HTTP:
 
 
 def run(mode='full',arm='A'):
-    return d.run(mode,arm,client_factory=d.Transport,execution=EXECUTION)
+    return d.run(mode,arm,client_factory=MockTransport,execution=EXECUTION)
 
 
 def test_exact_input_freeze_gold_and_plan_quotas():
@@ -185,7 +191,7 @@ def test_smoke_invalid_stops_immediately_and_full_is_separate(monkeypatch):
 
 
 def test_single_request_counter_consumed_even_on_connect_failure(monkeypatch):
-    client=d.Transport(CONFIG,BASELINE,CORPORA['smoke'][0],'A',d.time.monotonic()+120)
+    client=MockTransport(CONFIG,BASELINE,CORPORA['smoke'][0],'A',d.time.monotonic()+120)
     payload=client.payload(d.engine.EmailMetadata(CORPORA['smoke'][0]['input']))
     connections=[]
     def failed(*a,**k): connections.append(1);raise OSError('private_error')
@@ -210,14 +216,14 @@ def test_four_stages_claims_atomic_save_recover_and_cross_namespace(monkeypatch,
     HTTP(monkeypatch)
     refs=[]
     for mode,arm in d.STAGES:
-        result=d.collect(mode,arm,previous=refs,execution=EXECUTION,client_factory=d.Transport)
+        result=d.collect(mode,arm,previous=refs,execution=EXECUTION,client_factory=MockTransport)
         assert result['workflow_exit_code']==0 and result['report_read_verified']
         path=publication_root/result['report_path']; assert path.exists() and not path.with_suffix('.json.tmp').exists()
         run_id=path.parent.name; digest=result['report_sha256']
         before=path.read_bytes(); assert d.read_report(run_id,digest)==result['report']
         assert path.read_bytes()==before
         refs.append((run_id,digest))
-    repeated=d.collect('smoke','A',execution=EXECUTION,client_factory=d.Transport)
+    repeated=d.collect('smoke','A',execution=EXECUTION,client_factory=MockTransport)
     assert repeated['workflow_exit_code']==1
     with pytest.raises(d.Error): d.read_report(refs[0][0],'0'*64)
     with pytest.raises(d.Error): d.read_report('../old-run',refs[0][1])
@@ -232,7 +238,7 @@ def test_publication_failure_retains_memory_no_retry(monkeypatch,publication_roo
     http=HTTP(monkeypatch)
     def failed(*a,**k): raise OSError('private_error')
     monkeypatch.setattr(d.prior.os,'replace',failed)
-    result=d.collect('smoke','A',execution=EXECUTION,client_factory=d.Transport)
+    result=d.collect('smoke','A',execution=EXECUTION,client_factory=MockTransport)
     assert result['workflow_exit_code']==1 and result['report']['run_status']=='complete'
     assert result['error_code']=='stage_or_publication_failed' and not result['report_read_verified']
     assert sum(p=='/api/chat' for _,p,_ in http.calls)==2
@@ -325,7 +331,7 @@ def test_final_residency_identity_failure_latches_taint(monkeypatch):
 
 def test_fixture_hash_failure_and_readonly_recover_no_network(monkeypatch,publication_root,capsys):
     HTTP(monkeypatch)
-    r=d.collect('smoke','A',execution=EXECUTION,client_factory=d.Transport)
+    r=d.collect('smoke','A',execution=EXECUTION,client_factory=MockTransport)
     run_id=Path(r['report_path']).parent.name
     def deny(*a,**k): pytest.fail('Recovery cannot construct/query a transport')
     monkeypatch.setattr(d,'Transport',deny)
@@ -352,7 +358,7 @@ def test_metadata_missing_alias_and_wrong_quantization_block_before_chat(monkeyp
 
 def test_total_deadline_blocks_connect_and_nonfinite_report_values(monkeypatch):
     http=HTTP(monkeypatch)
-    client=d.Transport(CONFIG,BASELINE,CORPORA['smoke'][0],'A',d.time.monotonic()-1)
+    client=MockTransport(CONFIG,BASELINE,CORPORA['smoke'][0],'A',d.time.monotonic()-1)
     with pytest.raises(d.Error): client.request('GET','/api/version')
     assert http.calls==[]
     report=run('smoke')
@@ -406,6 +412,6 @@ def test_future_execution_identity_gate_with_mock_git_only(monkeypatch,fault):
 def test_missing_stage_prerequisite_is_zero_requests(monkeypatch,publication_root):
     http=HTTP(monkeypatch)
     for mode,arm in (('smoke','B'),('full','A'),('full','B')):
-        result=d.collect(mode,arm,execution=EXECUTION,client_factory=d.Transport)
+        result=d.collect(mode,arm,execution=EXECUTION,client_factory=MockTransport)
         assert result['workflow_exit_code']==1 and result['report'] is None
     assert http.calls==[] and not (publication_root/d.LOCAL/'claims').exists()

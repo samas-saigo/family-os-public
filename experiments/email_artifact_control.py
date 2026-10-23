@@ -122,6 +122,8 @@ class Transport(compat.old.Transport):
         self.chat_attempts, self.requests = 0, []
 
     def request(self, method, path, value=None):
+        from experiments.email_artifact_launch import require_live_launch
+        require_live_launch()
         return clone(compat.old.Transport.request, parent=reply_boundary(self.model['tag']))(self, method, path, value)
 
     def identity(self):
@@ -373,7 +375,8 @@ def collect(mode, arm, *, previous=(), execution=None, client_factory=None):
         if client_factory is None:
             # This PR freezes preparation only. A separate reviewed launch freeze
             # must enable real execution; caller-supplied SHA strings cannot do so.
-            need(config['execution_freeze'] is not None, 'input_rejected')
+            from experiments.email_artifact_launch import require_live_launch
+            require_live_launch()
             execution_gate(execution)
             client_factory = Transport
         else:
