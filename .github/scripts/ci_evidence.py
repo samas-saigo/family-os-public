@@ -141,8 +141,16 @@ def changes(c, revision=git):
 
 
 def junit(raw, exit_code):
-    require(len(raw) <= XML_LIMIT and b'<!DOCTYPE' not in raw and b'<!ENTITY' not in raw)
-    root = ET.fromstring(raw)
+    require(len(raw) <= XML_LIMIT and b'\0' not in raw)
+    # Pytest writes UTF-8. Never let the XML parser autodetect a wider encoding
+    # that could hide declaration tokens from the checks below.
+    text = raw.decode('utf-8-sig', errors='strict')
+    declaration = re.match(r'<\?xml\s+[^?]*\?>', text)
+    if declaration:
+        encoding = re.search(r'''\bencoding\s*=\s*(['"])(.*?)\1''', declaration[0])
+        require(encoding is None or encoding[2].lower() == 'utf-8')
+    require('<!DOCTYPE' not in text and '<!ENTITY' not in text)
+    root = ET.fromstring(text)
     require(root.tag == 'testsuites' and len(root) == 1 and root[0].tag == 'testsuite')
     suite = root[0]
     counts = {}

@@ -80,6 +80,9 @@ UTF-8 bytes; commits ≤100, each raw commit object ≤64KiB; Git output ≤1MiB
 JUnit ≤32MiB/20000 testcases; at most20 unique failure locations. Exceeding a limit
 reports UNKNOWN and fails evidence rather than claiming a complete check. Paths are
 escaped; no arbitrary names, emails, model prose or exception details are published.
+Only strictly decoded UTF-8 XML (with an optional UTF-8 BOM) is accepted. Other
+declared encodings, invalid UTF-8, NUL bytes and DTD/entity declarations are rejected
+before parsing; ElementTree receives validated text, never raw bytes to autodetect.
 Temporary XML may remain until runner disposal on hard cancellation; it is never an
 artifact. Original pytest logs are unchanged and remain subject to normal log policy.
 

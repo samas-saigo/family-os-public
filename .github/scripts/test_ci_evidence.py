@@ -97,6 +97,44 @@ class EvidenceTests(unittest.TestCase):
         self.assertIn('failures: 1', text);self.assertNotIn('private', text)
         self.assertFalse(e.test_summary(xml('<failure/>', failures=1), 0)[1])
 
+    def test_only_utf8_xml_reaches_parser(self):
+        for bom in (b'', b'\xef\xbb\xbf'):
+            raw = bom + b'<?xml version="1.0" encoding="utf-8"?>' + xml(name='test_caf\u00e9')
+            with self.subTest(bom=bom):
+                text, valid = e.test_summary(raw, 0)
+                self.assertTrue(valid);self.assertIn('passed: 1', text)
+        for raw in (xml().replace(b'testcase', b'test\0case'),
+                    xml(name='test_caf\u00e9').decode().encode('latin-1'),
+                    b'<?xml version="1.0" encoding="ISO-8859-1"?>' + xml(),
+                    b'<?xml version="1.0" encoding="UTF-16"?>' + xml()):
+            with self.subTest(prefix=raw[:60]), patch.object(e.ET, 'fromstring') as parse:
+                text, valid = e.test_summary(raw, 0)
+                self.assertFalse(valid);self.assertIn('UNKNOWN', text)
+                self.assertNotIn('passed:', text);parse.assert_not_called()
+
+    def test_wide_encoded_xml_and_internal_entities_are_unknown_before_parsing(self):
+        plain = xml(name='test_entity').decode()
+        entity = ('<!DOCTYPE testsuites [<!ENTITY hidden "private_value">]>'
+                  + plain.replace('test_entity', '&hidden;'))
+        encodings = (('utf-16-le', b'\xff\xfe'), ('utf-16-be', b'\xfe\xff'),
+                     ('utf-32-le', b'\xff\xfe\0\0'), ('utf-32-be', b'\0\0\xfe\xff'))
+        for encoding, bom in encodings:
+            for prefix in (b'', bom):
+                for document in (plain, entity):
+                    raw = prefix + document.encode(encoding)
+                    with self.subTest(encoding=encoding, bom=bool(prefix), entity=document is entity), \
+                            patch.object(e.ET, 'fromstring') as parse:
+                        text, valid = e.test_summary(raw, 0)
+                        self.assertFalse(valid);self.assertIn('UNKNOWN', text)
+                        self.assertNotIn('passed:', text);self.assertNotIn('private_value', text)
+                        parse.assert_not_called()
+        for raw in (entity.encode(), b'\xef\xbb\xbf' + entity.encode(),
+                    b'<!ENTITY hidden "private_value">' + xml()):
+            with patch.object(e.ET, 'fromstring') as parse:
+                text, valid = e.test_summary(raw, 0)
+                self.assertFalse(valid);self.assertIn('UNKNOWN', text)
+                self.assertNotIn('private_value', text);parse.assert_not_called()
+
     def test_missing_truncated_oversized_inconsistent_dtd_and_partial_are_unknown(self):
         for raw, code in ((b'', 0), (xml()[:-5], 0), (b'x' * (e.XML_LIMIT + 1), 0),
                           (xml(tests=2), 0), (xml(skipped=1), 0), (xml(), 1), (xml(), 2),
