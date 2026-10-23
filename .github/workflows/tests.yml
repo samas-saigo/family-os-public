@@ -34,6 +34,9 @@ jobs:
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: python .github/scripts/ci_route.py
+      - name: Review checkout and new commit identities
+        if: ${{ !cancelled() }}
+        run: python .github/scripts/ci_evidence.py inspect
   sqlite:
     timeout-minutes: 30
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
           cache-dependency-path: requirements-dev.lock
       - run: python -m pip install -r requirements-dev.lock
       - run: python -m pip install --no-deps -e .
-      - run: python -m pytest -q
+      - run: python .github/scripts/ci_evidence.py pytest -q
   postgres:
     needs: selection
     if: ${{ !cancelled() && (needs.selection.result != 'success' || needs.selection.outputs.postgres != 'false') }}
@@ -77,7 +80,7 @@ jobs:
           cache-dependency-path: requirements-dev.lock
       - run: python -m pip install -r requirements-dev.lock
       - run: python -m pip install --no-deps -e .
-      - run: python -m pytest -q
+      - run: python .github/scripts/ci_evidence.py pytest -q
   windows-wording:
     name: windows-wording (3.12.10)
     env:
@@ -97,7 +100,7 @@ jobs:
       - run: python -m pip install -r requirements-dev.lock
       - run: python -m pip install --no-deps -e .
       - name: Native fixed-file and email experiment regressions
-        run: python -m pytest -q -rP tests/test_synthetic_email_evidence.py tests/test_email_wording_challenge.py tests/test_email_model_evidence.py tests/test_single_email_diagnostic.py tests/test_single_email_windows_workflow.py tests/test_single_email_compat.py tests/test_email_model_compat.py tests/test_email_structure_diagnostic.py tests/test_email_relational_schema.py tests/test_email_semantic_prompt.py
+        run: python .github/scripts/ci_evidence.py pytest -q -rP tests/test_synthetic_email_evidence.py tests/test_email_wording_challenge.py tests/test_email_model_evidence.py tests/test_single_email_diagnostic.py tests/test_single_email_windows_workflow.py tests/test_single_email_compat.py tests/test_email_model_compat.py tests/test_email_structure_diagnostic.py tests/test_email_relational_schema.py tests/test_email_semantic_prompt.py
       - name: Parse Windows diagnostic instructions without executing inference
         shell: pwsh
         run: |
@@ -202,7 +205,11 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Record aggregate checkout identity
+        if: ${{ !cancelled() }}
+        run: python .github/scripts/ci_evidence.py checkout
       - name: Report executed checks and intentional omissions
+        if: ${{ !cancelled() }}
         env:
           RESULTS: ${{ toJSON(needs) }}
         run: python .github/scripts/ci_result.py
