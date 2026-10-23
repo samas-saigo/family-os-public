@@ -33,3 +33,6 @@ review-package/
 
 # Independent six-case finite structure diagnostic
 .local/email-structure-diagnostic-v1/
+
+# Independent artifact-control finite reports and durable stage claims
+.local/email-model-artifact-control-v1/

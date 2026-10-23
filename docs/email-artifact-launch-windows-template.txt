@@ -1,0 +1,82 @@
+# DESIGN TEMPLATE ONLY. Interactive stdin in PowerShell 5.1/7; never a .ps1.
+# No Python/model start exists in this draft. No Set-ExecutionPolicy.
+# External approved records/anchors must come from Lisa's reviewed handoff,
+# never environment variables or hashes read from the same untrusted records.
+
+function Get-LfSha256 {
+    param([string]$Path)
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction Stop
+    if ($item.PSIsContainer) { throw 'file_type_invalid' }
+    $ancestor = $item
+    while ($null -ne $ancestor) {
+        if ($ancestor.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw 'reparse_point_rejected'
+        }
+        if ($ancestor.PSIsContainer) { $ancestor = $ancestor.Parent }
+        else { $ancestor = $ancestor.Directory }
+    }
+    if ($item.Length -gt 65536) { throw 'file_size_rejected' }
+    $bytes = [IO.File]::ReadAllBytes($item.FullName)
+    if ($bytes.Length -gt 65536) { throw 'file_size_rejected' }
+    $utf8 = New-Object System.Text.UTF8Encoding($false, $true)
+    $text = $utf8.GetString($bytes).Replace("`r`n", "`n")
+    if ($text.Contains("`r")) { throw 'lone_cr_rejected' }
+    $hasher = [Security.Cryptography.SHA256]::Create()
+    try {
+        [BitConverter]::ToString($hasher.ComputeHash($utf8.GetBytes($text))).Replace('-', '').ToLowerInvariant()
+    } finally { $hasher.Dispose() }
+}
+
+function Read-LocalGit {
+    param([string]$Checkout, [string[]]$GitArguments)
+    $value = & git -C $Checkout @GitArguments 2>$null
+    if ($LASTEXITCODE -ne 0) { throw 'git_check_failed' }
+    ($value -join "`n").Trim()
+}
+
+function Test-ApprovedCheckout {
+    param([string]$Checkout, $Release)
+    if ($Release.commit -cnotmatch '^[0-9a-f]{40}$' -or
+        $Release.tree -cnotmatch '^[0-9a-f]{40}$') { throw 'commit_tree_invalid' }
+    if ((Read-LocalGit $Checkout @('rev-parse', 'HEAD')) -cne $Release.commit) {
+        throw 'commit_mismatch'
+    }
+    if ((Read-LocalGit $Checkout @('rev-parse', 'HEAD^{tree}')) -cne $Release.tree) {
+        throw 'tree_mismatch'
+    }
+    if ((Read-LocalGit $Checkout @('status', '--porcelain', '--untracked-files=all')) -cne '') {
+        throw 'checkout_dirty'
+    }
+    $paths = @{
+        config = 'experiments/configs/email-model-artifact-control-v1.json'
+        runner = 'experiments/email_artifact_control.py'
+        launcher = 'experiments/email_artifact_launch.py'
+        windows_gate = 'docs/email-artifact-launch-windows-template.txt'
+    }
+    foreach ($name in $paths.Keys) {
+        $expected = $Release.pins.$name
+        if ($expected -cnotmatch '^[0-9a-f]{64}$') { throw 'file_pin_invalid' }
+        if ((Get-LfSha256 (Join-Path $Checkout $paths[$name])) -cne $expected) {
+            throw 'file_pin_mismatch'
+        }
+    }
+    if ((Read-LocalGit $Checkout @('merge-base', '--is-ancestor',
+        '29ad25c947827c115a6e8d3ef72315186556deb7', 'HEAD')) -cne '') {
+        throw 'input_freeze_ancestry_invalid'
+    }
+}
+
+# Future order (design, intentionally NOT implemented as an executable block):
+# 1. Lisa separately approves exact release/decision bytes and external SHA anchors.
+# 2. Verify those anchors with non-Python code; parse strict bounded records.
+# 3. Check exact schema/phase/arm/prior receipts; never derive authority from nonnull.
+# 4. Test-ApprovedCheckout, then verify the approved absolute interpreter exists.
+# 5. Recheck checkout/pins immediately before any isolated Python stdin invocation.
+# 6. Python verifies its own actual executable/version/platform, all pins and receipts.
+# 7. Claim stage before any metadata; just-in-time metadata; one selected stage only.
+# 8. Print complete finite result and attempt clipboard copy; on failure print a
+#    finite code and retain complete displayed evidence, with no rerun.
+# Recover is a separate read-only UUID+original SHA operation, without metadata.
+# Actual launcher/clipboard paths and 5.1/Restricted behavior need later review/tests.
+
+throw 'draft_only_execution_not_frozen'
