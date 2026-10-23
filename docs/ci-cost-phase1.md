@@ -121,3 +121,7 @@ from a full run or promise future suite duration/cache behavior.
 
 Review order: ChatGPT first review, then Hanabi independent review, operator manual merge.
 Keep this PR open, with auto-merge disabled.
+
+The additive [review evidence helper](ci-review-evidence-phase1.md) reuses these
+checks and preserves this routing/result/cancellation contract; it adds bounded
+checkout/commit metadata and single-invocation pytest statistics, with no artifact.
